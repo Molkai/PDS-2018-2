@@ -31,14 +31,12 @@ return [
     |
     */
 
-    if(getenv('DATABASE_URL')===true){
-        $url = parse_url(getenv("DATABASE_URL"));
+    $url = getenv("DATABASE_URL"),
 
-        $host = $url["host"];
-        $username = $url["user"];
-        $password = $url["pass"];
-        $database = substr($url["path"], 1);
-    }
+    $host = ($url===true?parse_url($url)["host"]:'127.0.0.1'),
+    $username = ($url===true?parse_url($url)["user"]:'forge'),
+    $password = ($url===true?parse_url($url)["pass"]:''),
+    $database = ($url===true?substr(parse_url($url)["path"],1):'forge'),
 
     'connections' => [
 
