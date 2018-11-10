@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Pedido;
 use App\Oferta;
 use App\Url;
+use App\Http\Requests\PedidoRequest;
 use Carbon\Carbon;
 
 class PedidosController extends Controller {
@@ -23,7 +24,7 @@ class PedidosController extends Controller {
         return view('agente.content.content_pedidos')->with('pedidos', $pedidos);
     }
 
-    public function cadastraPedido(Request $request){
+    public function cadastraPedido(PedidoRequest $request){
         $user = Auth::guard('cliente')->user();
         $pedido_id = Carbon::now('America/Sao_Paulo');
 

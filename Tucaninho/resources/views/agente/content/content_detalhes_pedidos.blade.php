@@ -62,7 +62,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label for="preco">O preço da sua oferta:</label>
-                                                    <input id="preco" type="number" min="1" step="0.01" class="form-control" placeholder="Ex.: R$200,00 *" required="required">
+                                                    <input id="preco" type="number" min="1" step="0.01" class="form-control" name="plainPreco" placeholder="Ex.: R$200,00 *" required="required">
                                                 </div>
                                             </div>
                                         </div>

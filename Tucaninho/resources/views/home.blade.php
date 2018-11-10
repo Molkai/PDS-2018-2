@@ -134,6 +134,12 @@
 
   <body id="page-top">
 
+    @if(isset($errors))
+        @foreach($errors->all() as $message)
+            {{ $message }}
+        @endforeach
+    @endif
+
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
       <div class="container">
