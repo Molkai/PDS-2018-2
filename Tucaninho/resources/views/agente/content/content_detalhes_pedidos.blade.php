@@ -5,8 +5,24 @@
 @endsection
 
 @section('scripts')
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
+    
     <script type='text/javascript'>
-       $(function() {
+        $(document).ready(function(){
+            $('#preco,#disabledPreco').val("R$");
+            $('#preco,#disabledPreco').inputmask("numeric", {
+                radixPoint: ",",
+                groupSeparator: ".",
+                digits: 2,
+                autoGroup: true,
+                prefix: 'R$ ', //Space after $, this will not truncate the first character.
+                rightAlign: false,
+                oncleared: function () { self.Value(''); }
+            });
+        }); 
+  
+        $(function() {
            $('#realizar_oferta').click(function() {
                 $(this).hide();
             });
@@ -24,7 +40,12 @@
 
        $(function() {
            $('#preco').change(function() {
-                $("#disabledPreco").val((parseFloat($(this).val())*1.1).toFixed(2));
+                var precoNum = $('#preco').val();
+                precoNum = precoNum.replace(/\./g, '');
+                precoNum = precoNum.replace(',', '.');             
+                precoNum = precoNum.replace('R', '');
+                precoNum = precoNum.replace('$', '');
+                $("#disabledPreco").val((parseFloat(precoNum)*1.1).toFixed(2));
             });
         });
     </script>
@@ -62,7 +83,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label for="preco">O preço da sua oferta:</label>
-                                                    <input id="preco" type="number" min="1" step="0.01" class="form-control" name="plainPreco" placeholder="Ex.: R$200,00 *" required="required">
+                                                    <input id="preco" class="form-control" name="plainPreco" required="required">
                                                 </div>
                                             </div>
                                         </div>
