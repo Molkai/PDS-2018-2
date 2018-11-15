@@ -24,16 +24,16 @@ class OfertaRequest extends FormRequest
     public function rules()
     {
         return [
-            'plainPreco' => 'bail|required|min:1|max:9',
+            'preco' => 'bail|required|min:1|max:9',
             'descricao' => 'bail|required|min:20|max:3000',
         ];
     }
 
     public function messages(){
         return [
-            'plainPreco.required' => 'O campo preço é obrigatório',
-            'plainPreco.min' => 'O campo preço deve ter no mínimo :min caracteres',
-            'plainPreco.max' => 'O campo preço deve ter no máximo :max caracteres',
+            'preco.required' => 'O campo preço é obrigatório',
+            'preco.min' => 'O campo preço deve ter no mínimo :min caracteres',
+            'preco.max' => 'O campo preço deve ter no máximo :max caracteres',
             'descricao.required' => 'O campo descrição é obrigatório',
             'descricao.min' => 'O campo descrição deve ter no mínimo :min caracteres',
             'descricao.max' => 'O campo descrição deve ter no máximo :max caracteres'

@@ -1,4 +1,4 @@
-<p class="h4">R${{ $oferta->preco }}</p>
+<p class="h4">R$ {{ $oferta->preco }}</p>
 <p>{{ $oferta->descricao }}</p>
 @if($displayButton==true)
     <small class="text-muted float-right">Posted by {{$oferta->email_agente}}</small>

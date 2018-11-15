@@ -40,6 +40,14 @@
                 rightAlign: false,
                 oncleared: function () { self.Value(''); }
             });
+            $('#submit_pedido').click(function() {
+                var precoNum = $('#preco').val();
+                precoNum = precoNum.replace(/\./g, '');
+                precoNum = precoNum.replace(',', '.');
+                precoNum = precoNum.replace('R', '');
+                precoNum = precoNum.replace('$', '');
+                $("input[name='preco']").val((parseFloat(precoNum)).toFixed(2));
+            });
             linkExpr();
         });
 
@@ -105,11 +113,13 @@
                                       <div class="col-md-4">
                                           <div class="form-group">
                                               <label for="preco">O melhor preço que você encontrou:</label>
-                                              <input id="preco" name="preco" class="form-control" required="required" data-error="O preco é obrigatório.">
+                                              <input id="preco" class="form-control" required="required" data-error="O preco é obrigatório.">
                                               <div class="help-block with-errors"></div>
                                           </div>
                                       </div>
                                   </div>
+
+                                  <input type="hidden" name="preco">
 
                                   <div class="row">
                                              <div class="col-md-8">
@@ -268,7 +278,7 @@
 
                                   <div class="row">
                                       <div class="col-md-12">
-                                          <input type="submit" class="btn btn-warning btn-send" value="Finalizar pedido">
+                                          <input type="submit" id="submit_pedido" class="btn btn-warning btn-send" value="Finalizar pedido">
                                       </div>
                                   </div>
 

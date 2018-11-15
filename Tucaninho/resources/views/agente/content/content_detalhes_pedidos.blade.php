@@ -7,7 +7,7 @@
 @section('scripts')
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
-    
+
     <script type='text/javascript'>
         $(document).ready(function(){
             $('#preco,#disabledPreco').val("R$");
@@ -20,8 +20,16 @@
                 rightAlign: false,
                 oncleared: function () { self.Value(''); }
             });
-        }); 
-  
+            $('#submeter_oferta').click(function() {
+                var precoNum = $('#disabledPreco').val();
+                precoNum = precoNum.replace(/\./g, '');
+                precoNum = precoNum.replace(',', '.');
+                precoNum = precoNum.replace('R', '');
+                precoNum = precoNum.replace('$', '');
+                $("input[name='preco']").val((parseFloat(precoNum)).toFixed(2));
+            });
+        });
+
         $(function() {
            $('#realizar_oferta').click(function() {
                 $(this).hide();
@@ -42,7 +50,7 @@
            $('#preco').change(function() {
                 var precoNum = $('#preco').val();
                 precoNum = precoNum.replace(/\./g, '');
-                precoNum = precoNum.replace(',', '.');             
+                precoNum = precoNum.replace(',', '.');
                 precoNum = precoNum.replace('R', '');
                 precoNum = precoNum.replace('$', '');
                 $("#disabledPreco").val((parseFloat(precoNum)*1.1).toFixed(2));
@@ -52,6 +60,12 @@
 @endsection
 
 @section('content')
+
+    @if(isset($errors))
+        @foreach($errors->all() as $message)
+            {{ $message }}
+        @endforeach
+    @endif
   <!-- Page Content -->
   <div class="container-fluid">
     @include('components.painel_navbar')
@@ -93,10 +107,12 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label for="disabledPreco">Preço final a ser pago, calculado a partir da taxa de serviço do Tucaninho:</label>
-                                                    <input class="form-control"  id="disabledPreco" type="text" name="preco" readonly>
+                                                    <input class="form-control"  id="disabledPreco" type="text" readonly>
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <input type="hidden" name="preco">
 
                                         <!-- campo -->
                                          <div class="row">
