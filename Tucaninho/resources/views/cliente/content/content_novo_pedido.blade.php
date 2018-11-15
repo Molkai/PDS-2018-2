@@ -14,7 +14,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js" integrity="sha256-dHf/YjH1A4tewEsKUSmNnV05DDbfGN3g7NMq86xgGh8=" crossorigin="anonymous"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
-  
+
   <script>
         function linkExpr() {
             $('input[type="url"]').on('blur', function(){
@@ -26,9 +26,9 @@
                     string = "http://" + string;
                     $(this).val(string);
                 }
-            });  
+            });
         };
-        
+
         $(document).ready(function(){
             $('#preco').val("R$");
             $('#preco').inputmask("numeric", {
@@ -41,20 +41,20 @@
                 oncleared: function () { self.Value(''); }
             });
             linkExpr();
-        }); 
-     
+        });
+
         function somaQnt(){
             $("#disabledInput").val(parseInt($("#qnt_adultos option:selected").val()) + parseInt($("#qnt_criancas option:selected").val()) + parseInt($("#qnt_bebes option:selected").val()));
         }
 
         $(function() {
-        // Remove button click       
+        // Remove button click
                 $(document).on(
                     'click',
                     '[data-role="dynamic-fields"] > .form-inline [data-role="remove"]',
                     function(e) {
                         e.preventDefault();
-                        $(this).closest('.form-inline').remove();                
+                        $(this).closest('.form-inline').remove();
                     }
                 );
                 // Add button click
@@ -74,7 +74,7 @@
                         container.prepend(new_field_group);
                         linkExpr();
                     }
-                );             
+                );
             });
   </script>
 @endsection
