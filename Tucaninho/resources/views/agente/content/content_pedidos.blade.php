@@ -27,6 +27,7 @@
             <th scope="col">Cliente</th>
             <th scope="col">Preço</th>
             <th scope="col">Descrição</th>
+            <th scope="col">Tempo restante</th>
           </tr>
         </thead>
         <tbody>
@@ -39,6 +40,11 @@
                 <td>{{$pedido->descricao}}</td>
               @else
                 <td>{{substr($pedido->descricao, 0, 57).'...'}}</td>
+              @endif
+              @if(\Carbon\Carbon::parse($pedido->pedido_id, 'America/Sao_Paulo')->addDay()->lt(\Carbon\Carbon::now('America/Sao_Paulo')))
+                <td>Expirou</td>
+              @else
+                <td>{{\Carbon\Carbon::parse($pedido->pedido_id, 'America/Sao_Paulo')->addDay()->diffAsCarbonInterval(\Carbon\Carbon::now('America/Sao_Paulo'))->forHumans('H:i:s')}}</td>
               @endif
             </tr>
           @endforeach

@@ -16,6 +16,8 @@
   <script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
 
   <script>
+        let numLinks = 1;
+
         function linkExpr() {
             $('input[type="url"]').on('blur', function(){
                 var string = $(this).val();
@@ -61,8 +63,12 @@
                     'click',
                     '[data-role="dynamic-fields"] > .form-inline [data-role="remove"]',
                     function(e) {
+                        numLinks--;
                         e.preventDefault();
                         $(this).closest('.form-inline').remove();
+                        $("input[type='url']").each(function(index){
+                            $(this).attr('name', 'link'+((numLinks-1)-index));
+                        });
                     }
                 );
                 // Add button click
@@ -70,6 +76,7 @@
                     'click',
                     '[data-role="dynamic-fields"] > .form-inline [data-role="add"]',
                     function(e) {
+                        numLinks++;
                         e.preventDefault();
                         var container = $(this).closest('[data-role="dynamic-fields"]');
                         new_field_group = container.children().filter('.form-inline:first-child').clone();
