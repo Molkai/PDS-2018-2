@@ -12,19 +12,49 @@
 @section('scripts')
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js" integrity="sha256-dHf/YjH1A4tewEsKUSmNnV05DDbfGN3g7NMq86xgGh8=" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
+  
   <script>
+        function linkExpr() {
+            $('input[type="url"]').on('blur', function(){
+                var string = $(this).val();
+                if (!string.match(/^https?:/) && !string.match(/^www\./) && string.length) {
+                    string = "http://www." + string;
+                    $(this).val(string);
+                }else if (string.match(/^www\./) && string.length){
+                    string = "http://" + string;
+                    $(this).val(string);
+                }
+            });  
+        };
+        
+        $(document).ready(function(){
+            $('#preco').val("R$");
+            $('#preco').inputmask("numeric", {
+                radixPoint: ",",
+                groupSeparator: ".",
+                digits: 2,
+                autoGroup: true,
+                prefix: 'R$ ', //Space after $, this will not truncate the first character.
+                rightAlign: false,
+                oncleared: function () { self.Value(''); }
+            });
+            linkExpr();
+        }); 
+     
         function somaQnt(){
             $("#disabledInput").val(parseInt($("#qnt_adultos option:selected").val()) + parseInt($("#qnt_criancas option:selected").val()) + parseInt($("#qnt_bebes option:selected").val()));
         }
 
         $(function() {
-        // Remove button click
+        // Remove button click       
                 $(document).on(
                     'click',
                     '[data-role="dynamic-fields"] > .form-inline [data-role="remove"]',
                     function(e) {
                         e.preventDefault();
-                        $(this).closest('.form-inline').remove();
+                        $(this).closest('.form-inline').remove();                
                     }
                 );
                 // Add button click
@@ -42,8 +72,9 @@
                         new_field_group.find('input').attr('name', 'link'+num);
                         new_field_group.find('button').attr('class', 'btn btn-danger').attr('data-role', 'remove').find('i').attr('class', 'fa fa-minus');
                         container.prepend(new_field_group);
+                        linkExpr();
                     }
-                );
+                );             
             });
   </script>
 @endsection
@@ -74,7 +105,7 @@
                                       <div class="col-md-4">
                                           <div class="form-group">
                                               <label for="preco">O melhor preço que você encontrou:</label>
-                                              <input id="preco" type="number" min="1" step="0.01" name="preco" class="form-control" placeholder="Ex.: R$200,00 *" required="required" data-error="O preco é obrigatório.">
+                                              <input id="preco" name="preco" class="form-control" required="required" data-error="O preco é obrigatório.">
                                               <div class="help-block with-errors"></div>
                                           </div>
                                       </div>
