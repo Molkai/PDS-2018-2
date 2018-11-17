@@ -47,11 +47,11 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js" integrity="sha256-dHf/YjH1A4tewEsKUSmNnV05DDbfGN3g7NMq86xgGh8=" crossorigin="anonymous"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
-  
+
   <script>
         let numLinks = 1;
         let numDatas = 1;
-  
+
         function linkExpr() {
             $('input[type="url"]').on('blur', function(){
                 var string = $(this).val();
@@ -62,9 +62,9 @@
                     string = "http://" + string;
                     $(this).val(string);
                 }
-            });  
-        };     
-        
+            });
+        };
+
         $(document).ready(function(){
             $('#preco').val("R$");
             $('#preco').inputmask("numeric", {
@@ -125,7 +125,7 @@
                 }
             );
         });
-            
+
         $(function() { // DATAS
         // Remove button click
             $(document).on(
@@ -161,20 +161,20 @@
                     e.preventDefault();
                     var container = $(this).closest('[data-role="dynamic-fields"][id="datas"]');
                     new_field_group = container.children().filter('.form-inline:first-child').clone();
-                    
+
                     let strNumData = "data" + (numDatas - 2).toString();
                     let strNumPais = "pais" + (numDatas - 2).toString();
                     let strNumEstado = "estado" + (numDatas - 2).toString();
                     let strNumCidade = "cidade" + (numDatas - 2).toString();
                     let strNumAeroporto = "aeroporto" + (numDatas - 2).toString();
-                    
+
                     new_field_group.find('input').each(function(){
                         var num;
                         $(this).val('');
-                        
+
                         if($(this).attr('name') == strNumData){
                             num = parseInt($(this).attr('name').slice(4))+1;
-                            $(this).attr('name', 'data'+num);                            
+                            $(this).attr('name', 'data'+num);
                         }else if($(this).attr('name') == strNumPais){
                             num = parseInt($(this).attr('name').slice(4))+1;
                             $(this).attr('name', 'pais'+num);
@@ -187,9 +187,9 @@
                         }else if($(this).attr('name') == strNumAeroporto){
                             num = parseInt($(this).attr('name').slice(9))+1;
                             $(this).attr('name', 'aeroporto'+num);
-                        }                        
+                        }
                     });
-                               
+
                     new_field_group.find('button').attr('class', 'btn btn-danger').attr('data-role', 'remove').find('i').attr('class', 'fa fa-minus');
                     container.prepend(new_field_group);
                 }
@@ -277,10 +277,10 @@
                                           </div>
                                       </div>
                                   </div>
-                                  
+
                                 <div class="row">
                                         <div class="col-md-8">
-                                           <label for="links">Insira a(s) data(s) da sua viagem:</label>                                      
+                                           <label for="links">Insira a(s) data(s) da sua viagem:</label>
                                         </div>
                                 </div>
                                 <div class="row">
