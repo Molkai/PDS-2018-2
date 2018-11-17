@@ -17,7 +17,6 @@
   <script>
         let numLinks = 1;
         let numDatas = 1;
-
         function linkExpr() {
             $('input[type="url"]').on('blur', function(){
                 var string = $(this).val();
@@ -30,7 +29,6 @@
                 }
             });
         };
-
         $(document).ready(function(){
             $('#preco').val("R$");
             $('#preco').inputmask("numeric", {
@@ -52,11 +50,9 @@
             });
             linkExpr();
         });
-
         function somaQnt(){
             $("#disabledInput").val(parseInt($("#qnt_adultos option:selected").val()) + parseInt($("#qnt_criancas option:selected").val()) + parseInt($("#qnt_bebes option:selected").val()));
         }
-
         $(function() { // LINKS
         // Remove button click
             $(document).on(
@@ -91,16 +87,15 @@
                 }
             );
         });
-
         $(function() { // DATAS
         // Remove button click
             $(document).on(
                 'click',
-                '[data-role="dynamic-fields"][id="datas"] > .form-inline [data-role="remove"]',
+                '[data-role="dynamic-fields"][id="datas"] > .form [data-role="remove"]',
                 function(e) {
                     numDatas--;
                     e.preventDefault();
-                    $(this).closest('.form-inline').remove();
+                    $(this).closest('.form').remove();
                     $(".data").each(function(index){
                         $(this).attr('name', 'data'+((numDatas-1)-index));
                     });
@@ -121,23 +116,23 @@
             // Add button click
             $(document).on(
                 'click',
-                '[data-role="dynamic-fields"][id="datas"]  > .form-inline [data-role="add"]',
+                '[data-role="dynamic-fields"][id="datas"]  > .form [data-role="add"]',
                 function(e) {
                     numDatas++;
                     e.preventDefault();
                     var container = $(this).closest('[data-role="dynamic-fields"][id="datas"]');
-                    new_field_group = container.children().filter('.form-inline:first-child').clone();
-
+                    new_field_group = container.children().filter('.form:first-child').clone();
+                    
+                    new_field_group.find('p').text("Trecho " + numDatas + ":");
+                    
                     let strNumData = "data" + (numDatas - 2).toString();
                     let strNumPais = "pais" + (numDatas - 2).toString();
                     let strNumEstado = "estado" + (numDatas - 2).toString();
                     let strNumCidade = "cidade" + (numDatas - 2).toString();
                     let strNumAeroporto = "aeroporto" + (numDatas - 2).toString();
-
                     new_field_group.find('input').each(function(){
                         var num;
                         $(this).val('');
-
                         if($(this).attr('name') == strNumData){
                             num = parseInt($(this).attr('name').slice(4))+1;
                             $(this).attr('name', 'data'+num);
@@ -155,7 +150,6 @@
                             $(this).attr('name', 'aeroporto'+num);
                         }
                     });
-
                     new_field_group.find('button').attr('class', 'btn btn-danger').attr('data-role', 'remove').find('i').attr('class', 'fa fa-minus');
                     container.prepend(new_field_group);
                 }
@@ -250,16 +244,19 @@
                                         </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <div data-role="dynamic-fields" id="datas">
-                                                <div class="form-inline">
-                                                    <div class="form-group">
-                                                        Data: <input type="date" name="data0" class="form-control data" placeholder="dd/mm/aaaa" required="required">
-                                                        País: <input type="text" name="pais0" class="form-control pais" placeholder="" required="required">
-                                                        Estado: <input type="text" name="estado0" class="form-control estado" placeholder="" required="required">
-                                                        Cidade: <input type="text" name="cidade0" class="form-control cidade" placeholder="" required="required">
-                                                        Aeroporto: <input type="text" name="aeroporto0" class="form-control aeroporto" placeholder="" required="required">
+                                                <div class="form">
+                                                    <div class="card mt-4">
+                                                        <div class="card-body">
+                                                            <p id="trecho"> Trecho 1: </p>
+                                                            Data: <input type="date" name="data0" class="form-control data" placeholder="dd/mm/aaaa" required="required">
+                                                            País: <input type="text" name="pais0" class="form-control pais" placeholder="" required="required">
+                                                            Estado: <input type="text" name="estado0" class="form-control estado" placeholder="" required="required">
+                                                            Cidade: <input type="text" name="cidade0" class="form-control cidade" placeholder="" required="required">
+                                                            Aeroporto: <input type="text" name="aeroporto0" class="form-control aeroporto" placeholder="" required="required">
+                                                        </div>
                                                     </div>
                                                     <button class="btn btn-primary" data-role="add">
                                                         <i class="fa fa-plus"></i>
