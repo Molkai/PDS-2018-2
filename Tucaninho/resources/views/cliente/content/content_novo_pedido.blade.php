@@ -111,6 +111,9 @@
                     $(".aeroporto").each(function(index){
                         $(this).attr('name', 'aeroporto'+((numDatas-1)-index));
                     });
+                    $(".trecho").each(function(index){
+                        $(this).text("Trecho " + (numDatas-index) + ":");
+                    });
                 }
             );
             // Add button click
@@ -122,9 +125,9 @@
                     e.preventDefault();
                     var container = $(this).closest('[data-role="dynamic-fields"][id="datas"]');
                     new_field_group = container.children().filter('.form:first-child').clone();
-                    
+
                     new_field_group.find('p').text("Trecho " + numDatas + ":");
-                    
+
                     let strNumData = "data" + (numDatas - 2).toString();
                     let strNumPais = "pais" + (numDatas - 2).toString();
                     let strNumEstado = "estado" + (numDatas - 2).toString();
@@ -250,7 +253,7 @@
                                                 <div class="form">
                                                     <div class="card mt-4">
                                                         <div class="card-body">
-                                                            <p id="trecho"> Trecho 1: </p>
+                                                            <p class="trecho"> Trecho 1: </p>
                                                             Data: <input type="date" name="data0" class="form-control data" placeholder="dd/mm/aaaa" required="required">
                                                             País: <input type="text" name="pais0" class="form-control pais" placeholder="" required="required">
                                                             Estado: <input type="text" name="estado0" class="form-control estado" placeholder="" required="required">
