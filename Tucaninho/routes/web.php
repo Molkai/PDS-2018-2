@@ -35,6 +35,8 @@ Route::middleware('clienteAuth')->group(function(){
   });
 
   Route::post('/cliente/novo', 'PedidosController@cadastraPedido');
+
+  Route::post('/cliente/remove_row', 'PedidosController@deleteRow');
 });
 
 Route::middleware('agenteAuth')->group(function(){

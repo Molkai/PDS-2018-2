@@ -11,7 +11,7 @@ class Pedido extends Model {
 
   public $incrementing = false;
 
-  protected $primaryKey = ['pedido_id', 'email_cliente'];
+  protected $primaryKey = 'pedido_id';
 
 
   protected $fillable = ['pedido_id', 'email_cliente', 'url', 'descricao', 'qnt_adultos',

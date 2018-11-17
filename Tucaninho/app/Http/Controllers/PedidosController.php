@@ -65,4 +65,15 @@ class PedidosController extends Controller {
 
         return view('agente.content.content_detalhes_pedidos')->with(['pedido' => $pedido, 'links' => $links, 'oferta' => $oferta]);
     }
+
+    public function deleteRow(Request $request){
+        $match = ['pedido_id' => $request->id];
+        $pedido = Pedido::where($match)->first();
+
+        if($pedido==null) return response()->json('Ocoreu um erro.');
+
+        $pedido->delete();
+
+        return response()->json('Sucesso.');
+    }
 }

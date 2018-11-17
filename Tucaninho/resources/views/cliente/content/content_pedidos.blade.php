@@ -9,9 +9,34 @@
 
 @section('scripts')
   <script>
+    let index;
+
     $(".clickable-row").css('cursor', 'pointer');
-    $(".clickable-row").click(function() {
-        window.location = $(this).data("href");
+    $(".clickable-row").click(function(e) {
+        console.log(e.target);
+        if(!$(e.target).is('i'))
+            window.location = $(this).data("href");
+        else{
+            index = $("tr").index($(this));
+            console.log(index);
+            let id = $(this).data("id");
+            console.log(id);
+            $.post(
+                "{{action('PedidosController@deleteRow')}}",
+                {
+                    id: id,
+                    _token: '{{csrf_token()}}'
+                },
+                function(data){
+                    if(data==='Sucesso.')
+                        $("tr:eq('"+index+"')").remove();
+                    console.log(data);
+                },
+                "json"
+            ).fail(function(data){
+                console.log(data);
+            });
+        }
     });
   </script>
 @endsection
@@ -27,11 +52,12 @@
             <th scope="col">Preço</th>
             <th scope="col">Descrição</th>
             <th scope="col">Tempo restante</th>
+            <th scope="col">Remover</th>
           </tr>
         </thead>
         <tbody>
           @foreach ($pedidos as $pedido)
-            <tr class="clickable-row" data-href="{{action('PedidosController@detalhesPedidoCliente', [encrypt($pedido->pedido_id)])}}">
+            <tr class="clickable-row" data-id="{{$pedido->pedido_id}}" data-href="{{action('PedidosController@detalhesPedidoCliente', [encrypt($pedido->pedido_id)])}}">
               <th scope="row">{{\Carbon\Carbon::parse($pedido->pedido_id)->format('d/m/Y - H:i')}}</th>
               <td>{{$pedido->preco}}</td>
               @if(strlen($pedido->descricao)<60)
@@ -44,6 +70,7 @@
               @else
                 <td>{{\Carbon\Carbon::parse($pedido->pedido_id, 'America/Sao_Paulo')->addDay()->diffAsCarbonInterval(\Carbon\Carbon::now('America/Sao_Paulo'))->forHumans('H:i:s')}}</td>
               @endif
+              <td><a href="#"><i class="far fa-trash-alt"></i></a></td>
             </tr>
           @endforeach
         </tbody>
