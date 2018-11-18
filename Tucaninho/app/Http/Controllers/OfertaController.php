@@ -18,4 +18,16 @@ class OfertaController extends Controller {
 
         return redirect()->action('PedidosController@listaPedidosAgente');
     }
+
+    public function deletaOferta(Request $request){
+        $match = ['pedido_id' => $request->id, 'email_cliente' => $request->email_cliente, 'email_agente' => $request->email_agente];
+
+        $oferta = Oferta::where($match)->first();
+
+        if($oferta==null) return response()->json('Ocorreu um erro.');
+
+        $oferta->delete();
+
+        return response()->json('Sucesso.');
+    }
 }

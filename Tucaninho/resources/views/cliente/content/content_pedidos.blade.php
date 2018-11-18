@@ -18,24 +18,28 @@
             window.location = $(this).data("href");
         else{
             index = $("tr").index($(this));
-            console.log(index);
             let id = $(this).data("id");
-            console.log(id);
-            $.post(
-                "{{action('PedidosController@deleteRow')}}",
-                {
-                    id: id,
-                    _token: '{{csrf_token()}}'
-                },
-                function(data){
-                    if(data==='Sucesso.')
-                        $("tr:eq('"+index+"')").remove();
+            let email_cliente = $(this).data("cliente");
+            if(confirm("Você tem certeza que quer deletar?")){
+                $.post(
+                    "{{action('PedidosController@deleteRow')}}",
+                    {
+                        id: id,
+                        email_cliente: email_cliente,
+                        _token: '{{csrf_token()}}'
+                    },
+                    function(data){
+                        if(data==='Sucesso.')
+                            $("tr:eq('"+index+"')").remove();
+                        console.log(data);
+                    },
+                    "json"
+                ).fail(function(data){
                     console.log(data);
-                },
-                "json"
-            ).fail(function(data){
-                console.log(data);
-            });
+                });
+            }
+            else
+                alert("Operação cancelada");
         }
     });
   </script>
@@ -57,7 +61,7 @@
         </thead>
         <tbody>
           @foreach ($pedidos as $pedido)
-            <tr class="clickable-row" data-id="{{$pedido->pedido_id}}" data-href="{{action('PedidosController@detalhesPedidoCliente', [encrypt($pedido->pedido_id)])}}">
+            <tr class="clickable-row" data-id="{{$pedido->pedido_id}}" data-cliente="{{$pedido->email_cliente}}" data-href="{{action('PedidosController@detalhesPedidoCliente', [encrypt($pedido->pedido_id)])}}">
               <th scope="row">{{\Carbon\Carbon::parse($pedido->pedido_id)->format('d/m/Y - H:i')}}</th>
               <td>{{$pedido->preco}}</td>
               @if(strlen($pedido->descricao)<60)

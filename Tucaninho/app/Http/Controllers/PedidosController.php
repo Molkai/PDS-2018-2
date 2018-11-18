@@ -67,7 +67,7 @@ class PedidosController extends Controller {
     }
 
     public function deleteRow(Request $request){
-        $match = ['pedido_id' => $request->id];
+        $match = ['pedido_id' => $request->id, 'email_cliente' => $request->email_cliente];
         $pedido = Pedido::where($match)->first();
 
         if($pedido==null) return response()->json('Ocoreu um erro.');
