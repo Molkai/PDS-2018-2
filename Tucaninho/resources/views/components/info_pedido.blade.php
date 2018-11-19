@@ -36,6 +36,30 @@
     @foreach($links as $link)
         <p class="card-text"><b>URL:</b> <a href="{{ $link->url }}">{{ $link->url }}</a></p>
     @endforeach
+    <?php $i=0; ?>
+    @foreach($datas as $data)
+        @if($i%3==0)
+            <div class="row my-4">
+        @endif
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"><strong>Trecho {{$i+1}}</strong></h5>
+                    <p><strong>Data:</strong> {{$data->data}}</p>
+                    <p><strong>País:</strong> {{$data->pais}}</p>
+                    <p><strong>Cidade:</strong> {{$data->cidade}}</p>
+                    <p><strong>Aeroporto:</strong> {{$data->aeroporto}}</p>
+                </div>
+            </div>
+        </div>
+        @if($i%3==2)
+            </div>
+        @endif
+        <?php $i++ ?>
+    @endforeach
+    @if($i%3!=0)
+        </div>
+    @endif
     <div class="row">
         <p class="col-md-3 card-text"><b>Tipo da viagem:</b> {{ $viagem }}</p>
         <p class="col-md-3 card-text"><b>Classe:</b> {{ $passagem }}</p>

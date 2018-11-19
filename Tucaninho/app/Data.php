@@ -5,19 +5,19 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
-class Url extends Model {
-    protected $table = 'url_pedido';
+class Data extends Model
+{
+    protected $table = 'datas';
 
     public $timestamps = false;
 
     public $incrementing = false;
 
-    protected $primaryKey = ['pedido_id', 'email_cliente', 'url'];
+    protected $primaryKey = ['pedido_id', 'email_cliente', 'data', 'cidade'];
 
+    protected $fillable = ['pedido_id', 'email_cliente', 'data', 'cidade', 'pais', 'aeroporto'];
 
-    protected $fillable = ['pedido_id', 'email_cliente', 'url'];
-
-    protected $hidden = ['email_cliente'];
+    protected $hidden = ['email_cliente', 'pedido_id'];
 
     protected function setKeysForSaveQuery(Builder $query)
     {

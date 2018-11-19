@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Pedido;
 use App\Oferta;
 use App\Url;
+use App\Data;
 use App\Http\Requests\PedidoRequest;
 use Carbon\Carbon;
 
@@ -41,6 +42,15 @@ class PedidosController extends Controller {
             $i++;
         }
 
+        $i = 0;
+        while (true) {
+            if(!isset($request['data'.$i]))
+                break;
+            $dados = ['pedido_id' => $pedido_id, 'email_cliente' => $user->email_cliente, 'data' => $request['data'.$i], 'pais' => $request['pais'.$i], 'cidade' => $request['cidade'.$i], 'aeroporto' => $request['aeroporto'.$i],];
+            Data::create($dados);
+            $i++;
+        }
+
         return redirect()->action('PedidosController@listaPedidosCliente');
     }
 
@@ -50,8 +60,9 @@ class PedidosController extends Controller {
         $pedido = Pedido::where($match)->first();
         $links = Url::where($match)->get();
         $ofertas = Oferta::where($match)->get();
+        $datas = Data::where($match)->get();
 
-        return view('cliente.content.content_detalhes_pedidos')->with(['pedido' => $pedido, 'links' => $links, 'ofertas' => $ofertas]);
+        return view('cliente.content.content_detalhes_pedidos')->with(['pedido' => $pedido, 'links' => $links, 'ofertas' => $ofertas, 'datas' => $datas]);
     }
 
     public function detalhesPedidoAgente($id, $email){

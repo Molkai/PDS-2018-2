@@ -13,7 +13,7 @@
 
             <div class="col-md-12">
 
-                @include('components.info_pedido', ['pedido' => $pedido, 'links' => $links])
+                @include('components.info_pedido', ['pedido' => $pedido, 'links' => $links, 'datas' => $datas])
 
                 @if(count($ofertas)>0)
                     <div class="card card-outline-secondary my-4">

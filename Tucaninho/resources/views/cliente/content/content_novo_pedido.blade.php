@@ -102,9 +102,6 @@
                     $(".pais").each(function(index){
                         $(this).attr('name', 'pais'+((numDatas-1)-index));
                     });
-                    $(".estado").each(function(index){
-                        $(this).attr('name', 'estado'+((numDatas-1)-index));
-                    });
                     $(".cidade").each(function(index){
                         $(this).attr('name', 'cidade'+((numDatas-1)-index));
                     });
@@ -130,7 +127,6 @@
 
                     let strNumData = "data" + (numDatas - 2).toString();
                     let strNumPais = "pais" + (numDatas - 2).toString();
-                    let strNumEstado = "estado" + (numDatas - 2).toString();
                     let strNumCidade = "cidade" + (numDatas - 2).toString();
                     let strNumAeroporto = "aeroporto" + (numDatas - 2).toString();
                     new_field_group.find('input').each(function(){
@@ -142,9 +138,6 @@
                         }else if($(this).attr('name') == strNumPais){
                             num = parseInt($(this).attr('name').slice(4))+1;
                             $(this).attr('name', 'pais'+num);
-                        }else if($(this).attr('name') == strNumEstado){
-                            num = parseInt($(this).attr('name').slice(6))+1;
-                            $(this).attr('name', 'estado'+num);
                         }else if($(this).attr('name') == strNumCidade){
                             num = parseInt($(this).attr('name').slice(6))+1;
                             $(this).attr('name', 'cidade'+num);
@@ -162,6 +155,12 @@
 @endsection
 
 @section('content')
+
+    @if(isset($errors))
+        @foreach($errors->all() as $message)
+            {{ $message }}
+        @endforeach
+    @endif
 
   <div class="container-fluid">
     @include('components.painel_navbar')
@@ -187,7 +186,8 @@
                                       <div class="col-md-4">
                                           <div class="form-group">
                                               <label for="preco">O melhor preço que você encontrou:</label>
-                                              <input id="preco" name="preco" class="form-control" required="required" data-error="O preco é obrigatório.">
+                                              <input id="preco" class="form-control" required="required" data-error="O preco é obrigatório.">
+                                              <input type="hidden" name="preco">
                                               <div class="help-block with-errors"></div>
                                           </div>
                                       </div>
@@ -204,7 +204,7 @@
                                                     <div data-role="dynamic-fields" id="links">
                                                         <div class="form-inline">
                                                             <div class="form-group">
-                                                                <input type="url" name="link0" class="form-control" placeholder="Link..." required="required">
+                                                                <input type="url" name="link0" class="form-control" placeholder="Link..." required="required" max="2000">
                                                             </div>
                                                             <button class="btn btn-primary" data-role="add">
                                                                 <i class="fa fa-plus"></i>
@@ -255,10 +255,9 @@
                                                         <div class="card-body">
                                                             <p class="trecho"> Trecho 1: </p>
                                                             Data: <input type="date" name="data0" class="form-control data" placeholder="dd/mm/aaaa" required="required">
-                                                            País: <input type="text" name="pais0" class="form-control pais" placeholder="" required="required">
-                                                            Estado: <input type="text" name="estado0" class="form-control estado" placeholder="" required="required">
-                                                            Cidade: <input type="text" name="cidade0" class="form-control cidade" placeholder="" required="required">
-                                                            Aeroporto: <input type="text" name="aeroporto0" class="form-control aeroporto" placeholder="" required="required">
+                                                            País: <input type="text" name="pais0" class="form-control pais" placeholder="" required="required" max="100">
+                                                            Cidade: <input type="text" name="cidade0" class="form-control cidade" placeholder="" required="required" max="100">
+                                                            Aeroporto: <input type="text" name="aeroporto0" class="form-control aeroporto" placeholder="" required="required" max="100">
                                                         </div>
                                                     </div>
                                                     <button class="btn btn-primary" data-role="add">
@@ -379,7 +378,7 @@
 
                                   <div class="row">
                                       <div class="col-md-12">
-                                          <input type="submit" class="btn btn-warning btn-send" value="Finalizar pedido">
+                                          <input type="submit" id="submit_pedido" class="btn btn-warning btn-send" value="Finalizar pedido">
                                       </div>
                                   </div>
 
