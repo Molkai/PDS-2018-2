@@ -13,7 +13,6 @@
 @endsection
 
 @section('scripts')
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
 
     <script type='text/javascript'>
@@ -99,12 +98,6 @@
 @endsection
 
 @section('content')
-
-    @if(isset($errors))
-        @foreach($errors->all() as $message)
-            {{ $message }}
-        @endforeach
-    @endif
   <!-- Page Content -->
   <div class="container-fluid">
     @include('components.painel_navbar')
@@ -115,12 +108,12 @@
 
       <div class="col-md-12" id="conteudo">
 
-        @include('components.info_pedido', ['pedido' => $pedido, 'links' => $links])
+        @include('components.info_pedido', ['pedido' => $pedido, 'links' => $links, 'datas' => $datas])
 
 
-        @if($oferta==null)
+        @if(!$pedido->expirou && $oferta==null)
             @include('components.form_oferta')
-        @else
+        @elseif($oferta!=null)
             <div class="card card-outline-secondary my-4" id="card_oferta">
                 <div class="card-header">
                     Oferta

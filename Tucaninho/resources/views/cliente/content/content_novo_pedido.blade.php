@@ -12,7 +12,6 @@
 @section('scripts')
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js" integrity="sha256-dHf/YjH1A4tewEsKUSmNnV05DDbfGN3g7NMq86xgGh8=" crossorigin="anonymous"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
   <script>
         let numLinks = 1;
@@ -46,7 +45,8 @@
                 precoNum = precoNum.replace(',', '.');
                 precoNum = precoNum.replace('R', '');
                 precoNum = precoNum.replace('$', '');
-                $("input[name='preco']").val((parseFloat(precoNum)).toFixed(2));
+                console.log((parseFloat(precoNum)).toFixed(2));
+                $("input[name='preco']").val((parseFloat(precoNum).toFixed(2)));
             });
             linkExpr();
         });
@@ -155,13 +155,6 @@
 @endsection
 
 @section('content')
-
-    @if(isset($errors))
-        @foreach($errors->all() as $message)
-            {{ $message }}
-        @endforeach
-    @endif
-
   <div class="container-fluid">
     @include('components.painel_navbar')
 

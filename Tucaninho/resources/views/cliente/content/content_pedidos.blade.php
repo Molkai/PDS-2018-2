@@ -69,7 +69,7 @@
               @else
                 <td>{{substr($pedido->descricao, 0, 57).'...'}}</td>
               @endif
-              @if(\Carbon\Carbon::parse($pedido->pedido_id, 'America/Sao_Paulo')->addDay()->lt(\Carbon\Carbon::now('America/Sao_Paulo')))
+              @if($pedido->expirou===TRUE)
                 <td>Expirou</td>
               @else
                 <td>{{\Carbon\Carbon::parse($pedido->pedido_id, 'America/Sao_Paulo')->addDay()->diffAsCarbonInterval(\Carbon\Carbon::now('America/Sao_Paulo'))->forHumans('H:i:s')}}</td>

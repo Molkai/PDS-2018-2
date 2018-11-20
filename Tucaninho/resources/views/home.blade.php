@@ -15,6 +15,7 @@
 
     <!-- Custom fonts for this template -->
     <link href="{{asset('vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('css/animation.css')}}" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
@@ -31,6 +32,8 @@
     <!-- Plugin JavaScript -->
     <script src="{{asset('vendor/jquery-easing/jquery.easing.min.js')}}"></script>
 
+    <script src="{{asset('js/bootstrap-notify.min.js')}}"></script>
+
     <script>
     $(document).ready(function(){
         $("#formCadastro").submit(function compSenha(event){
@@ -41,6 +44,18 @@
                 event.preventDefault();
             }
         });
+
+        @if($errors->any())
+            $.notify({
+                // options
+                icon: 'fas fa-exclamation-circle',
+                title: '<strong>Erro:</strong>',
+                message: '{{$errors->first()}}'
+            },{
+                // settings
+                type: 'danger'
+            });
+        @endif
     });
 
     function modalFunction(){
@@ -133,12 +148,6 @@
   </head>
 
   <body id="page-top">
-
-    @if(isset($errors))
-        @foreach($errors->all() as $message)
-            {{ $message }}
-        @endforeach
-    @endif
 
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">

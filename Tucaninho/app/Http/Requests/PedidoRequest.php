@@ -24,7 +24,7 @@ class PedidoRequest extends FormRequest
     public function rules()
     {
         return [
-            'preco' => 'bail|required|min:1|max:9',
+            'preco' => 'bail|required|numeric|between:0,999999.99',
             'descricao' => 'bail|required|min:20|max:3000',
             'preferencia' => 'nullable|max:1000'
         ];
@@ -34,7 +34,9 @@ class PedidoRequest extends FormRequest
         return [
             'required' => 'O campo :attribute é obrigatório',
             'min' => 'O campo :attribute deve ter no mínimo :min caracteres',
-            'max' => 'O campo :attribute deve ter no máximo :max caracteres'
+            'max' => 'O campo :attribute deve ter no máximo :max caracteres',
+            'between' => 'O campo :attribute deve ser no minimo :min e no máximo :max',
+            'numeric' => 'O campo :attribute deve ser um número'
         ];
     }
 }

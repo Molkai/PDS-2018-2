@@ -17,6 +17,33 @@
     <link href="{{asset('painel/css/simple-sidebar.css')}}" rel="stylesheet">
     <link href="{{asset('painel/css/1-col-portfolio.css')}}" rel="stylesheet">
     <link href="{{asset('vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('css/animation.css')}}" rel="stylesheet" type="text/css">
+    <!-- Bootstrap core JavaScript -->
+    <script src="{{asset('vendor/jquery/jquery.min.js')}}"></script>
+    <script src="{{asset('vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{asset('js/bootstrap-notify.min.js')}}"></script>
+
+    <!-- Menu Toggle Script -->
+    <script>
+        $(document).ready(function(){
+            $("#menu-toggle").click(function(e) {
+                e.preventDefault();
+                $("#wrapper").toggleClass("toggled");
+            });
+
+            @if($errors->any())
+                $.notify({
+                    // options
+                    icon: 'fas fa-exclamation-circle',
+                    title: '<strong>Erro:</strong>',
+                    message: '{{$errors->first()}}'
+                },{
+                    // settings
+                    type: 'danger'
+                });
+            @endif
+        });
+    </script>
 
     @yield('styles')
 </head>
@@ -41,18 +68,6 @@
 
     </div>
     <!-- /#wrapper -->
-
-    <!-- Bootstrap core JavaScript -->
-    <script src="{{asset('vendor/jquery/jquery.min.js')}}"></script>
-    <script src="{{asset('vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-
-    <!-- Menu Toggle Script -->
-    <script>
-    $("#menu-toggle").click(function(e) {
-        e.preventDefault();
-        $("#wrapper").toggleClass("toggled");
-    });
-    </script>
     @yield('scripts')
 
 </body>

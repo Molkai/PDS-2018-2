@@ -17,11 +17,13 @@ class PedidosController extends Controller {
         $pedidos = Pedido::where('email_cliente', $user->email_cliente)
                       ->orderBy('pedido_id', 'desc')
                       ->get();
+        $this->verificaExpirou($pedidos, TRUE);
         return view('cliente.content.content_pedidos')->with('pedidos', $pedidos);
     }
 
     public function listaPedidosAgente(){
         $pedidos = Pedido::orderBy('pedido_id', 'desc')->orderBy('email_cliente', 'asc')->get();
+        $this->verificaExpirou($pedidos, TRUE);
         return view('agente.content.content_pedidos')->with('pedidos', $pedidos);
     }
 
@@ -29,7 +31,7 @@ class PedidosController extends Controller {
         $user = Auth::guard('cliente')->user();
         $pedido_id = Carbon::now('America/Sao_Paulo');
 
-        $dados = ['pedido_id' => $pedido_id, 'email_cliente' => $user->email_cliente, 'descricao' => $request->descricao, 'qnt_adultos' => $request->qnt_adultos, 'qnt_criancas' => $request->qnt_criancas, 'qnt_bebes' => $request->qnt_bebes, 'tipo_viagem' => $request->tipo_viagem, 'tipo_passagem' => $request->tipo_passagem, 'preferencia'=> $request->preferencia, 'preco' => $request->preco];
+        $dados = ['pedido_id' => $pedido_id, 'email_cliente' => $user->email_cliente, 'descricao' => $request->descricao, 'qnt_adultos' => $request->qnt_adultos, 'qnt_criancas' => $request->qnt_criancas, 'qnt_bebes' => $request->qnt_bebes, 'tipo_viagem' => $request->tipo_viagem, 'tipo_passagem' => $request->tipo_passagem, 'preferencia'=> $request->preferencia, 'preco' => $request->preco, 'expirou' => 0];
         Pedido::create($dados);
 
         $link = 'link';
@@ -62,6 +64,8 @@ class PedidosController extends Controller {
         $ofertas = Oferta::where($match)->get();
         $datas = Data::where($match)->get();
 
+        $this->verificaExpirou($pedido, FALSE);
+
         return view('cliente.content.content_detalhes_pedidos')->with(['pedido' => $pedido, 'links' => $links, 'ofertas' => $ofertas, 'datas' => $datas]);
     }
 
@@ -69,12 +73,15 @@ class PedidosController extends Controller {
         $match = ['pedido_id' => decrypt($id), 'email_cliente' => decrypt($email)];
         $pedido = Pedido::where($match)->first();
         $links = Url::where($match)->get();
+        $datas = Data::where($match)->get();
 
         $user = Auth::guard('agente')->user();
         $match['email_agente'] = $user->email_agente;
         $oferta = Oferta::where($match)->first();
 
-        return view('agente.content.content_detalhes_pedidos')->with(['pedido' => $pedido, 'links' => $links, 'oferta' => $oferta]);
+        $this->verificaExpirou($pedido, FALSE);
+
+        return view('agente.content.content_detalhes_pedidos')->with(['pedido' => $pedido, 'links' => $links, 'oferta' => $oferta, 'datas' => $datas]);
     }
 
     public function deleteRow(Request $request){
@@ -86,5 +93,21 @@ class PedidosController extends Controller {
         $pedido->delete();
 
         return response()->json('Sucesso.');
+    }
+
+    public function verificaExpirou($pedidos, $collection){
+        $date = Carbon::now('America/Sao_Paulo');
+        if($collection){
+            foreach ($pedidos as $pedido) {
+                if($pedido->expirou===FALSE && Carbon::parse($pedido->pedido_id, 'America/Sao_Paulo')->addDay()->lt($date)){
+                    $pedido->expirou = TRUE;
+                }
+            }
+        }
+        else{
+            if($pedidos->expirou===FALSE && Carbon::parse($pedidos->pedido_id, 'America/Sao_Paulo')->addDay()->lt($date)){
+                $pedidos->expirou = TRUE;
+            }
+        }
     }
 }
