@@ -24,7 +24,9 @@
                             @foreach($ofertas as $oferta)
                                 @include('components.info_oferta', ['oferta' => $oferta, 'displayButton' => true])
                                 @include('components.conversa_remetente')
+                                <br>
                                 @include('components.conversa_destinatario')
+                                <hr>
                                 <form id="sendMessageForm" method="post" action="" role="form">
                                     <div class="row content-center">
                                         <div class="col-xl-8">
