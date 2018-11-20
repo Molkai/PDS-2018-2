@@ -17,6 +17,7 @@
 
     <script type='text/javascript'>
         $(document).ready(function(){
+            $('#messagesDiv').hide();
             $('#preco,#disabledPreco').val("R$");
             $('#preco,#disabledPreco').inputmask("numeric", {
                 radixPoint: ",",
@@ -34,6 +35,15 @@
                 precoNum = precoNum.replace('R', '');
                 precoNum = precoNum.replace('$', '');
                 $("input[name='preco']").val((parseFloat(precoNum)).toFixed(2));
+            });
+        });
+
+        $(function() {
+            $('#messageBtn').click(function() {
+                if($('#messagesDiv').is(':visible'))
+                    $('#messagesDiv').hide();
+                else
+                    $('#messagesDiv').show()
             });
         });
 
