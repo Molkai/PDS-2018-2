@@ -23,6 +23,23 @@
                         <div class="card-body">
                             @foreach($ofertas as $oferta)
                                 @include('components.info_oferta', ['oferta' => $oferta, 'displayButton' => true])
+                                @include('components.conversa_remetente')
+                                @include('components.conversa_destinatario')
+                                <form id="sendMessageForm" method="post" action="" role="form">
+                                    <div class="row content-center">
+                                        <div class="col-xl-8">
+                                            <div class="form-group">
+                                                <input id="msg" name="mensagem" class="form-control" required="required" data-error="Não é possivel enviar mensagens vazias.">
+                                                <div class="help-block with-errors"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-4">
+                                            <div class="form-group">
+                                                <input type="submit" class="btn btn-warning btn-send" value="enviar">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
                             @endforeach
                         </div>
                     </div>
