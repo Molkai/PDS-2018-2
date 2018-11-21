@@ -20,13 +20,7 @@ Route::middleware('clienteAuth')->group(function(){
 
   Route::get('/cliente/logout', 'ClienteController@logout');
 
-  Route::get('/cliente/conversas', function () {
-      return view('placeholder');
-  });
-
-  Route::get('/cliente/config', function () {
-      return view('placeholder');
-  });
+  Route::get('/cliente/deletar/{encrypted_email}', 'ClienteController@deletar');
 
   Route::get('/cliente/pedidos/detalhes/{id}', 'PedidosController@detalhesPedidoCliente');
 
@@ -47,6 +41,8 @@ Route::middleware('agenteAuth')->group(function(){
     Route::post('agente/novo', 'OfertaController@cadastraOferta');
 
     Route::get('/agente/logout', 'AgenteController@logout');
+
+    Route::get('/agente/deletar/{encrypted_email}', 'AgenteController@deletar');
 
     Route::post('/agente/deleta_oferta', 'OfertaController@deletaOferta');
 });

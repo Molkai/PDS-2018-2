@@ -13,6 +13,15 @@
   @yield('styles')
 @endsection
 
+@section('func_del_user')
+    $("#deletaCliente").click(function(e){
+        if(!confirm('Você tem certeza que deseja deletar a sua conta?'))
+            e.preventDefault();
+        else
+            window.location = "{{action('ClienteController@deletar', [encrypt(\Auth::guard('cliente')->user()->email_cliente)])}}";
+    });
+@endsection
+
 @section('scripts')
   @yield('scripts')
 @endsection
@@ -29,12 +38,9 @@
   <li>
       <a href="/cliente/novo">Novo Pedido</a>
   </li>
-  <!--<li>
-      <a href="/cliente/conversas">Conversas</a>
-  </li>
   <li>
-      <a href="/cliente/config">Configurações</a>
-  </li>-->
+      <a id="deletaCliente" href="#">Deletar Conta</a>
+  </li>
   <li>
       <a href="{{action('ClienteController@logout')}}">Logout</a>
   </li>

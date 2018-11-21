@@ -31,6 +31,8 @@
                 $("#wrapper").toggleClass("toggled");
             });
 
+            @yield('func_del_user')
+
             @if($errors->any())
                 $.notify({
                     // options

@@ -13,6 +13,15 @@
   @yield('styles')
 @endsection
 
+@section('func_del_user')
+    $("#deletaAgente").click(function(e){
+        if(!confirm('Você tem certeza que deseja deletar a sua conta?'))
+            e.preventDefault();
+        else
+            window.location = "{{action('AgenteController@deletar', [encrypt(\Auth::guard('agente')->user()->email_agente)])}}";
+    });
+@endsection
+
 @section('scripts')
   @yield('scripts')
 @endsection
@@ -26,12 +35,9 @@
   <li>
       <a href="{{action('PedidosController@listaPedidosAgente')}}">Pedidos</a>
   </li>
-  <!--<li>
-      <a href="/cliente/conversas">Conversas</a>
-  </li>
   <li>
-      <a href="/cliente/config">Configurações</a>
-  </li>-->
+      <a id="deletaAgente" href="#">Deletar Conta</a>
+  </li>
   <li>
       <a href="{{action('AgenteController@logout')}}">Logout</a>
   </li>
