@@ -39,11 +39,11 @@
         });
 
         $(function() {
-            $('#messageBtn').click(function() {
-                if($('#messagesDiv').is(':visible'))
-                    $('#messagesDiv').hide();
+            $('.messageBtn').click(function() {
+                if($('.messagesDiv').is(':visible'))
+                    $('.messagesDiv').hide();
                 else
-                    $('#messagesDiv').show()
+                    $('.messagesDiv').show()
             });
         });
 

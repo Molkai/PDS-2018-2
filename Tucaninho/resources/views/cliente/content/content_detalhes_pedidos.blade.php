@@ -6,13 +6,14 @@
 
 @section('scripts')
     <script >
-        $('#messagesDiv').hide();
+        $('.messagesDiv').hide();
         $(function() {
-            $('#messageBtn').click(function() {
-                if($('#messagesDiv').is(':visible'))
-                    $('#messagesDiv').hide();
+            $('.messageBtn').click(function() {
+                var index = $('.messageBtn').index($(this));
+                if($('.messagesDiv:eq('+ index +')').is(':visible'))
+                    $('.messagesDiv:eq('+ index +')').hide();
                 else
-                    $('#messagesDiv').show()
+                    $('.messagesDiv:eq('+ index +')').show()
             });
         });
     </script>
