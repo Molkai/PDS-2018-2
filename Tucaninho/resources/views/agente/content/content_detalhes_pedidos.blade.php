@@ -38,6 +38,7 @@
             });
         });
 
+        $('.messagesDiv').hide();
         $(function() {
             $('.messageBtn').click(function() {
                 if($('.messagesDiv').is(':visible'))

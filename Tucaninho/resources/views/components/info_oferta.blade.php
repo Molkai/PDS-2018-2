@@ -9,8 +9,8 @@
 
 @endif
 <button type="button" class="btn btn-warning messageBtn">Mensagens</button>
-<hr>
 <div class="messagesDiv">
+    <br>
     @include('components.conversa_remetente')
     <br>
     @include('components.conversa_destinatario')
