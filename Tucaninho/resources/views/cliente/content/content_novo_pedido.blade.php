@@ -6,6 +6,12 @@
 
 @section('styles')
   <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
+  <style>
+    #obsCard{
+        background-color: #d3d3d3;
+        margin-bottom: 0;
+    }
+  </style>
 @endsection
 
 
@@ -50,6 +56,22 @@
             });
             linkExpr();
         });
+
+        $(function(){
+            $("#tipo_viagem").change(function(){
+                if($(this).val() == 0)
+                    $("#obs").text("Apenas viagem de ida para um destino dentro do país.");
+                else if($(this).val() == 1)
+                    $("#obs").text("Apenas viagem de ida para um destino fora do país.");
+                else if($(this).val() == 2)
+                    $("#obs").text("Viagem de ida e volta.");
+                else if($(this).val() == 3)
+                    $("#obs").text("Viagem com mais de um trajeto de avião.");
+                else if($(this).val() == 4)
+                    $("#obs").text("Viagem para andar pelo mundo, podendo utilizar varios trajetos de  avião (Minimo de 3 trajetos de avião).");
+            });
+        });
+
         function somaQnt(){
             $("#disabledInput").val(parseInt($("#qnt_adultos option:selected").val()) + parseInt($("#qnt_criancas option:selected").val()) + parseInt($("#qnt_bebes option:selected").val()));
         }
@@ -219,7 +241,7 @@
                                   </div>
 
                                   <div class="row">
-                                      <div class="col-md-6">
+                                      <div class="col-md-4">
                                           <div class="form-group">
                                               <label for="tipo_viagem">Tipo da viagem:</label>
                                               <select id="tipo_viagem" name="tipo_viagem" class="form-control" required="required" data-error="Especifique o tipo da viagem.">
@@ -230,6 +252,13 @@
                                                   <option value="4">Volta ao Mundo</option>
                                               </select>
                                               <div class="help-block with-errors"></div>
+                                          </div>
+                                      </div>
+                                      <div class="col-md-8">
+                                          <div class="card mt-4" id="obsCard">
+                                            <b><div class="card-body" id="obs">
+                                              Apenas viagem de ida para um destino dentro do país.
+                                            </div></b>
                                           </div>
                                       </div>
                                   </div>
