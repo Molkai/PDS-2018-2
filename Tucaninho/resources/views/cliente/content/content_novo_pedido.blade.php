@@ -11,6 +11,10 @@
         background-color: #d3d3d3;
         margin-bottom: 0;
     }
+
+    #addDataBtn{
+        display: none;
+    }
   </style>
 @endsection
 
@@ -59,16 +63,26 @@
 
         $(function(){
             $("#tipo_viagem").change(function(){
-                if($(this).val() == 0)
+                if($(this).val() == 0){
                     $("#obs").text("Apenas viagem de ida para um destino dentro do país.");
-                else if($(this).val() == 1)
+                    $("#addDataBtn").hide();
+                }
+                else if($(this).val() == 1){
                     $("#obs").text("Apenas viagem de ida para um destino fora do país.");
-                else if($(this).val() == 2)
+                    $("#addDataBtn").hide();
+                }
+                else if($(this).val() == 2){
                     $("#obs").text("Viagem de ida e volta.");
-                else if($(this).val() == 3)
+                    $("#addDataBtn").hide();
+                }
+                else if($(this).val() == 3){
                     $("#obs").text("Viagem com mais de um trajeto de avião.");
-                else if($(this).val() == 4)
+                    $("#addDataBtn").show();
+                }
+                else if($(this).val() == 4){
                     $("#obs").text("Viagem para andar pelo mundo, podendo utilizar varios trajetos de  avião (Minimo de 3 trajetos de avião).");
+                    $("#addDataBtn").show();
+                }
             });
         });
 
@@ -282,7 +296,7 @@
                                                             Aeroporto: <input type="text" name="aeroporto0" class="form-control aeroporto" placeholder="" required="required" max="100">
                                                         </div>
                                                     </div>
-                                                    <button class="btn btn-primary" data-role="add">
+                                                    <button class="btn btn-primary" data-role="add" id="addDataBtn">
                                                         <i class="fa fa-plus"></i>
                                                     </button>
                                                 </div>  <!-- /div.form-inline -->
