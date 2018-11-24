@@ -18,6 +18,7 @@
     <script type='text/javascript'>
         $(document).ready(function(){
             $('#messagesDiv').hide();
+            $('#form-oferta').hide();
             $('#preco,#disabledPreco').val("R$");
             $('#preco,#disabledPreco').inputmask("numeric", {
                 radixPoint: ",",
@@ -35,6 +36,13 @@
                 precoNum = precoNum.replace('R', '');
                 precoNum = precoNum.replace('$', '');
                 $("input[name='preco']").val((parseFloat(precoNum)).toFixed(2));
+            });
+            $("#altera_oferta").click(function(){
+                $("#card_oferta").hide();
+                $('#form-oferta').show();
+                $('#descricao').val('{{$oferta->descricao}}');
+                $('#preco').val('{{$oferta->preco/1.1}}');
+                $('#disabledPreco').val('{{$oferta->preco}}');
             });
         });
 
@@ -128,11 +136,15 @@
             <div class="card card-outline-secondary my-4" id="card_oferta">
                 <div class="card-header">
                     Oferta
+                    <a href="#"><i class="fas fa-pen" id="altera_oferta"></i></a>
                     <a href="#" style="text-align: right; float: right;"><i class="far fa-trash-alt" id="remove_oferta" data-cliente="{{$oferta->email_cliente}}" data-agente="{{$oferta->email_agente}}" data-id="{{$oferta->pedido_id}}"></i></a>
                 </div>
                 <div class="card-body">
                     @include('components.info_oferta', ['oferta' => $oferta, 'displayButton' => false])
                 </div>
+            </div>
+            <div class="card-body" id="form-oferta">
+                @include('components.form_oferta')
             </div>
         @endif
 
