@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Pedido;
+use App\Mensagem;
 use App\Oferta;
 use App\Url;
 use App\Data;
@@ -63,10 +64,18 @@ class PedidosController extends Controller {
         $links = Url::where($match)->get();
         $ofertas = Oferta::where($match)->get();
         $datas = Data::where($match)->get();
+        $m = Mensagem::where($match)->orderBy('mensagem_id', 'asc')->get();
+        $mensagens = [];
+        foreach ($ofertas as $oferta) {
+            $mensagens[$oferta->email_agente] = [];
+        }
+        foreach ($m as $me) {
+            array_push($mensagens[$me->email_agente], $me);
+        }
 
         $this->verificaExpirou($pedido, FALSE);
 
-        return view('cliente.content.content_detalhes_pedidos')->with(['pedido' => $pedido, 'links' => $links, 'ofertas' => $ofertas, 'datas' => $datas]);
+        return view('cliente.content.content_detalhes_pedidos')->with(['pedido' => $pedido, 'links' => $links, 'ofertas' => $ofertas, 'datas' => $datas, 'mensagens' => $mensagens]);
     }
 
     public function detalhesPedidoAgente($id, $email){
@@ -78,10 +87,11 @@ class PedidosController extends Controller {
         $user = Auth::guard('agente')->user();
         $match['email_agente'] = $user->email_agente;
         $oferta = Oferta::where($match)->first();
+        $mensagens = Mensagem::where($match)->orderBy('mensagem_id', 'asc')->get();
 
         $this->verificaExpirou($pedido, FALSE);
 
-        return view('agente.content.content_detalhes_pedidos')->with(['pedido' => $pedido, 'links' => $links, 'oferta' => $oferta, 'datas' => $datas]);
+        return view('agente.content.content_detalhes_pedidos')->with(['pedido' => $pedido, 'links' => $links, 'oferta' => $oferta, 'datas' => $datas, 'mensagens' => $mensagens]);
     }
 
     public function deleteRow(Request $request){
