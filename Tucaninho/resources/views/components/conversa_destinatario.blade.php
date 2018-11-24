@@ -1,6 +1,5 @@
-<div class="card">
-    <div class="col-xl-12" align="right">
-        <h3 class="myText"> Ele disse</h3>
-        <p class="otherText">Mensagem aqui!!!</p>
+<div class="card col-xl-6 offset-xl-6" style="background-color: lightgray;">
+    <div class="col-xl-6" align="right">
+        <p class="otherText">{{$mensagem->mensagem}}</p>
     </div>
 </div>

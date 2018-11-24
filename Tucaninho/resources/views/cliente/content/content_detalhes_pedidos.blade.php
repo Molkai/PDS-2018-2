@@ -16,6 +16,33 @@
                     $('.messagesDiv:eq('+ index +')').show()
             });
         });
+
+        $(".btn-send-message").click(function(e) {
+            e.preventDefault();
+            var index = $('.btn-send-message').index($(this));
+            let email_agente = $(this).data("agente");
+            let pedido_id = $(this).data("id");
+            let mensagem = $(".message-text:eq("+index+")").val();
+            $.post(
+                "{{action('MensagemController@cadastraMensagemCliente')}}",
+                {
+                    email_agente: email_agente,
+                    pedido_id: pedido_id,
+                    Mensagem: mensagem,
+                    _token: '{{csrf_token()}}'
+                },
+                function(data){
+                    if(!(data===null))
+                        $('.messagesCardsDiv:eq('+index+')').append('<br> <div class="card col-xl-6" style="background-color: lightgreen;"> <div class="col-xl-12"> <p class="otherText">'+data.mensagem+'</p> </div> </div>');
+                    $(".message-text:eq("+index+")").val('');
+                    console.log(data);
+                },
+                "json"
+            ).fail(function(data){
+                console.log(data);
+            });
+        });
+
     </script>
 @endsection
 
@@ -37,7 +64,7 @@
                         </div>
                         <div class="card-body">
                             @foreach($ofertas as $oferta)
-                                @include('components.info_oferta', ['oferta' => $oferta, 'displayButton' => true])
+                                @include('components.info_oferta', ['oferta' => $oferta, 'displayButton' => true, 'mensagens' => $mensagens[$oferta->email_agente], 'isCliente' => true])
                             @endforeach
                         </div>
                     </div>

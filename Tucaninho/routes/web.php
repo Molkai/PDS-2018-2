@@ -28,6 +28,8 @@ Route::middleware('clienteAuth')->group(function(){
       return view('cliente.content.content_novo_pedido');
   });
 
+  Route::post('/cliente/cria_mensagem', 'MensagemController@cadastraMensagemCliente');
+
   Route::post('/cliente/novo', 'PedidosController@cadastraPedido');
 
   Route::post('/cliente/remove_row', 'PedidosController@deleteRow');
@@ -45,6 +47,8 @@ Route::middleware('agenteAuth')->group(function(){
     Route::get('/agente/deletar/{encrypted_email}', 'AgenteController@deletar');
 
     Route::post('/agente/deleta_oferta', 'OfertaController@deletaOferta');
+
+    Route::post('/agente/cria_mensagem', 'MensagemController@cadastraMensagemAgente');
 });
 
 Route::post('/cliente/login', 'ClienteAuth\ClienteLoginController@authenticate');

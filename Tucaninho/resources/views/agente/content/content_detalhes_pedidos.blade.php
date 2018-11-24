@@ -113,6 +113,31 @@
                 }
             });
         });
+
+        $(".btn-send-message").click(function(e) {
+            e.preventDefault();
+            let email_cliente = '{{$oferta->email_cliente}}';
+            let pedido_id = '{{$oferta->pedido_id}}';
+            let mensagem = $(".message-text").val();
+            $.post(
+                "{{action('MensagemController@cadastraMensagemAgente')}}",
+                {
+                    email_cliente: email_cliente,
+                    pedido_id: pedido_id,
+                    Mensagem: mensagem,
+                    _token: '{{csrf_token()}}'
+                },
+                function(data){
+                    if(!(data===null))
+                        $('.messagesCardsDiv').append('<br> <div class="card col-xl-6" style="background-color: lightgreen;"> <div class="col-xl-12"> <p class="otherText">'+data.mensagem+'</p> </div> </div>');
+                    $(".message-text").val('');
+                    console.log(data);
+                },
+                "json"
+            ).fail(function(data){
+                console.log(data);
+            });
+        });
     </script>
 @endsection
 
@@ -140,7 +165,7 @@
                     <a href="#" style="text-align: right; float: right;"><i class="far fa-trash-alt" id="remove_oferta" data-cliente="{{$oferta->email_cliente}}" data-agente="{{$oferta->email_agente}}" data-id="{{$oferta->pedido_id}}"></i></a>
                 </div>
                 <div class="card-body">
-                    @include('components.info_oferta', ['oferta' => $oferta, 'displayButton' => false])
+                    @include('components.info_oferta', ['oferta' => $oferta, 'displayButton' => false, 'mensagens' => $mensagens, 'isCliente' => false])
                 </div>
             </div>
             <div class="card-body" id="form-oferta">
