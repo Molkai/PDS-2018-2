@@ -30,4 +30,19 @@ class OfertaController extends Controller {
 
         return response()->json('Sucesso.');
     }
+
+    public function atualizaOferta(OfertaRequest $request){
+        $user = Auth::guard('agente')->user();
+
+        $dados = ['descricao' => $request->descricao, 'preco' => $request->preco];
+
+        $oferta = Oferta::where('pedido_id', $request->pedido_id)
+                        ->where('email_cliente', $request->email_cliente)
+                        ->where('email_agente', $user->email_agente)
+                        ->first();
+
+        $oferta->update($dados);
+
+        return redirect()->action('PedidosController@detalhesPedidoAgente', [encrypt($request->pedido_id), encrypt($request->email_cliente)]);
+    }
 }

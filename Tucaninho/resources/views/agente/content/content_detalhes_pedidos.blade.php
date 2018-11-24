@@ -37,7 +37,8 @@
                 precoNum = precoNum.replace('$', '');
                 $("input[name='preco']").val((parseFloat(precoNum)).toFixed(2));
             });
-            $("#altera_oferta").click(function(){
+            $("#altera_oferta").click(function(e){
+                e.preventDefault();
                 $("#card_oferta").hide();
                 $('#form-oferta').show();
                 $('#descricao').val('{{$oferta->descricao}}');
@@ -156,7 +157,7 @@
 
 
         @if(!$pedido->expirou && $oferta==null)
-            @include('components.form_oferta')
+            @include('components.form_oferta', ['displayButton' => true])
         @elseif($oferta!=null)
             <div class="card card-outline-secondary my-4" id="card_oferta">
                 <div class="card-header">
@@ -169,7 +170,7 @@
                 </div>
             </div>
             <div class="card-body" id="form-oferta">
-                @include('components.form_oferta')
+                @include('components.form_oferta', ['displayButton' => false])
             </div>
         @endif
 

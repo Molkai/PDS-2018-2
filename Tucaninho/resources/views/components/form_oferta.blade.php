@@ -1,11 +1,11 @@
 <div class="row">
     <div class="col-xl-12 py-5">
-        <div class="card collapse multi-collapse" id="oferta">
+        <div class="card {{$displayButton?'collapse multi-collapse':''}}" id="oferta">
             <div class="card-body" id="contact-form">
                 <h3 class="card-title">Realizar Oferta</h3>
 
                 <!-- formulário de oferta -->
-                <form method="post" action="{{action('OfertaController@cadastraOferta')}}" role="form">
+                <form method="post" action="{{$displayButton?action('OfertaController@cadastraOferta'):action('OfertaController@atualizaOferta')}}" role="form">
                     @csrf
 
                     <div class="controls">
@@ -50,17 +50,20 @@
                         Submeter
                     </button>
                 </form>
-
-                <button type="button" id="cancelar_oferta" class="btn btn-outline-danger" data-toggle="collapse" data-target="#oferta" aria-expanded="false" aria-controls="oferta">
-                    Cancelar
-                </button>
+                @if($displayButton)
+                    <button type="button" id="cancelar_oferta" class="btn btn-outline-danger" data-toggle="collapse" data-target="#oferta" aria-expanded="false" aria-controls="oferta">
+                        Cancelar
+                    </button>
+                @endif
                 <!-- ./formulário de oferta -->
             </div>
         </div>
 
-        <button type="button" class="btn btn-warning btn-lg btn-block" id="realizar_oferta" data-toggle="collapse" data-target="#oferta" aria-expanded="false" aria-controls="oferta">
-            Fazer uma oferta
-        </button>
+        @if($displayButton)
+            <button type="button" class="btn btn-warning btn-lg btn-block" id="realizar_oferta" data-toggle="collapse" data-target="#oferta" aria-expanded="false" aria-controls="oferta">
+                Fazer uma oferta
+            </button>
+        @endif
 
     </div>
 </div>

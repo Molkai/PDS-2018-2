@@ -42,6 +42,8 @@ Route::middleware('agenteAuth')->group(function(){
 
     Route::post('agente/novo', 'OfertaController@cadastraOferta');
 
+    Route::post('agente/atualiza', 'OfertaController@atualizaOferta');
+
     Route::get('/agente/logout', 'AgenteController@logout');
 
     Route::get('/agente/deletar/{encrypted_email}', 'AgenteController@deletar');
