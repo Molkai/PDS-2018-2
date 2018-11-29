@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\RecuperarSenha;
 use App\Cliente;
+use Illuminate\Support\Facades\Hash;
 
 class ClienteController extends Controller {
     public function logout(){
@@ -28,9 +29,10 @@ class ClienteController extends Controller {
         $email = $request->email;
 
         $cliente = Cliente::where('email_cliente', $email)->first();
-        if($cliente===null) return redirect('/');
+        if($cliente==null) return redirect('/');
         $token = str_random(128);
         $cliente->token = $token;
+        $cliente->update();
 
         $url_recuperar = route('cliente.recuperar_senha', ['encrypted_token' => encrypt($token)]);
         $url_cancelar = route('cliente.cancelar_recuperacao', ['encrypted_email_cliente' => encrypt($email)]);
@@ -73,7 +75,7 @@ class ClienteController extends Controller {
     public function alterarSenha(Request $request){
         $cliente = Cliente::where('email_cliente', $request->email)->first();
 
-        $cliente->senha_cliente = $request->pwd;
+        $cliente->senha_cliente = Hash::make($request->pwd);
 
         $cliente->update();
 

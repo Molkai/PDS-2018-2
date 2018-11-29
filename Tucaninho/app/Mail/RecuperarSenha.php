@@ -34,7 +34,7 @@ class RecuperarSenha extends Mailable
      */
     public function build()
     {
-        return $this->from('tucaninho@noreply.com')
+        return $this->from('luccalafonte97@gmail.com')
                     ->markdown('emails.recuperar_senha');
     }
 }
