@@ -57,6 +57,14 @@ Route::post('/cliente/login', 'ClienteAuth\ClienteLoginController@authenticate')
 
 Route::post('/cliente/register', 'ClienteAuth\ClienteRegisterController@create');
 
+Route::post('/cliente/recuperar', 'ClienteController@enviaEmailRecCliente');
+
+Route::post('/cliente/alterar_senha', 'ClienteController@alterarSenha');
+
 Route::post('/agente/login', 'AgenteAuth\AgenteLoginController@authenticate');
 
 Route::post('/agente/register', 'AgenteAuth\AgenteRegisterController@create');
+
+Route::get('/cliente/recuperar/{encrypted_token}', 'ClienteController@recuperarSenha')->name('cliente.recuperar_senha');
+
+Route::get('/cliente/cancelar_rec/{encrypted_email}', 'ClienteController@cancelarRecSenha')->name('cliente.cancelar_recuperacao');
