@@ -15,7 +15,7 @@ class Data extends Model
 
     protected $primaryKey = ['pedido_id', 'email_cliente', 'data', 'cidade'];
 
-    protected $fillable = ['pedido_id', 'email_cliente', 'data', 'cidade', 'pais', 'aeroporto'];
+    protected $fillable = ['pedido_id', 'email_cliente', 'data', 'cidade', 'pais', 'aeroporto', 'cidadeDestino', 'paisDestino', 'aeroportoDestino'];
 
     protected $hidden = ['email_cliente', 'pedido_id'];
 

@@ -12,9 +12,14 @@
         margin-bottom: 0;
     }
 
-    #addDataBtn{
+    .addDataBtn{
         display: none;
     }
+
+    .dataRetornoDiv{
+        display: none;
+    }
+
   </style>
 @endsection
 
@@ -63,25 +68,44 @@
 
         $(function(){
             $("#tipo_viagem").change(function(){
+                $(".dataRetornoDiv").hide();
+                $(".dataRetorno").val("9999-01-01");
                 if($(this).val() == 0){
                     $("#obs").text("Apenas viagem de ida para um destino dentro do país.");
-                    $("#addDataBtn").hide();
+                    while(numDatas > 1){
+                        $(".rmDataBtn"+(numDatas-1)).trigger('click');
+                    }
+                    $(".addDataBtn").hide();
                 }
                 else if($(this).val() == 1){
                     $("#obs").text("Apenas viagem de ida para um destino fora do país.");
-                    $("#addDataBtn").hide();
+                    while(numDatas > 1){
+                        $(".rmDataBtn"+(numDatas-1)).trigger('click');
+                    }
+                    $(".addDataBtn").hide();
                 }
                 else if($(this).val() == 2){
-                    $("#obs").text("Viagem de ida e volta.");
-                    $("#addDataBtn").hide();
+                    $("#obs").text("Viagem de ida e volta, saída de um lugar com trecho de retorno.");
+                    while(numDatas > 1){
+                        $(".rmDataBtn"+(numDatas-1)).trigger('click');
+                    }
+                    $(".addDataBtn").hide();
+                    $(".dataRetorno").val("");
+                    $(".dataRetornoDiv").show();
                 }
                 else if($(this).val() == 3){
                     $("#obs").text("Viagem com mais de um trajeto de avião.");
-                    $("#addDataBtn").show();
+                    $(".addDataBtn").show();
+                    while(numDatas < 2){
+                        $(".addDataBtn").trigger('click');
+                    }
                 }
                 else if($(this).val() == 4){
                     $("#obs").text("Viagem para andar pelo mundo, podendo utilizar varios trajetos de  avião (Minimo de 3 trajetos de avião).");
-                    $("#addDataBtn").show();
+                    $(".addDataBtn").show();
+                    while(numDatas < 3){
+                        $(".addDataBtn").trigger('click');
+                    }
                 }
             });
         });
@@ -135,14 +159,26 @@
                     $(".data").each(function(index){
                         $(this).attr('name', 'data'+((numDatas-1)-index));
                     });
+                    $(".dataRetorno").each(function(index){
+                        $(this).attr('name', 'dataRetorno'+((numDatas-1)-index));
+                    });
                     $(".pais").each(function(index){
                         $(this).attr('name', 'pais'+((numDatas-1)-index));
+                    });
+                    $(".paisDestino").each(function(index){
+                        $(this).attr('name', 'paisDestino'+((numDatas-1)-index));
                     });
                     $(".cidade").each(function(index){
                         $(this).attr('name', 'cidade'+((numDatas-1)-index));
                     });
+                    $(".cidadeDestino").each(function(index){
+                        $(this).attr('name', 'cidadeDestino'+((numDatas-1)-index));
+                    });
                     $(".aeroporto").each(function(index){
                         $(this).attr('name', 'aeroporto'+((numDatas-1)-index));
+                    });
+                    $(".aeroportoDestino").each(function(index){
+                        $(this).attr('name', 'aeroportoDestino'+((numDatas-1)-index));
                     });
                     $(".trecho").each(function(index){
                         $(this).text("Trecho " + (numDatas-index) + ":");
@@ -161,28 +197,45 @@
 
                     new_field_group.find('p').text("Trecho " + numDatas + ":");
 
+                    var num;
                     let strNumData = "data" + (numDatas - 2).toString();
+                    let strNumDataRetorno = "dataRetorno" + (numDatas - 2).toString();
                     let strNumPais = "pais" + (numDatas - 2).toString();
+                    let strNumPaisDestino = "paisDestino" + (numDatas - 2).toString();
                     let strNumCidade = "cidade" + (numDatas - 2).toString();
+                    let strNumCidadeDestino = "cidadeDestino" + (numDatas - 2).toString();
                     let strNumAeroporto = "aeroporto" + (numDatas - 2).toString();
+                    let strNumAeroportoDestino = "aeroportoDestino" + (numDatas - 2).toString();
                     new_field_group.find('input').each(function(){
-                        var num;
                         $(this).val('');
                         if($(this).attr('name') == strNumData){
                             num = parseInt($(this).attr('name').slice(4))+1;
                             $(this).attr('name', 'data'+num);
+                        }else if($(this).attr('name') == strNumDataRetorno){
+                            num = parseInt($(this).attr('name').slice(11))+1;
+                            $(this).attr('name', 'dataRetorno'+num);
+                            $(this).remove();
                         }else if($(this).attr('name') == strNumPais){
                             num = parseInt($(this).attr('name').slice(4))+1;
                             $(this).attr('name', 'pais'+num);
+                        }else if($(this).attr('name') == strNumPaisDestino){
+                            num = parseInt($(this).attr('name').slice(11))+1;
+                            $(this).attr('name', 'paisDestino'+num);
                         }else if($(this).attr('name') == strNumCidade){
                             num = parseInt($(this).attr('name').slice(6))+1;
                             $(this).attr('name', 'cidade'+num);
+                        }else if($(this).attr('name') == strNumCidadeDestino){
+                            num = parseInt($(this).attr('name').slice(13))+1;
+                            $(this).attr('name', 'cidadeDestino'+num);
                         }else if($(this).attr('name') == strNumAeroporto){
                             num = parseInt($(this).attr('name').slice(9))+1;
                             $(this).attr('name', 'aeroporto'+num);
+                        }else if($(this).attr('name') == strNumAeroportoDestino){
+                            num = parseInt($(this).attr('name').slice(16))+1;
+                            $(this).attr('name', 'aeroportoDestino'+num);
                         }
                     });
-                    new_field_group.find('button').attr('class', 'btn btn-danger').attr('data-role', 'remove').find('i').attr('class', 'fa fa-minus');
+                    new_field_group.find('button').attr('class', 'btn btn-danger rmDataBtn'+num).attr('data-role', 'remove').find('i').attr('class', 'fa fa-minus');
                     container.prepend(new_field_group);
                 }
             );
@@ -283,20 +336,48 @@
                                         </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-12">
                                         <div class="form-group">
                                             <div data-role="dynamic-fields" id="datas">
                                                 <div class="form">
                                                     <div class="card mt-4">
                                                         <div class="card-body">
                                                             <p class="trecho"> Trecho 1: </p>
-                                                            Data: <input type="date" name="data0" class="form-control data" placeholder="dd/mm/aaaa" required="required">
-                                                            País: <input type="text" name="pais0" class="form-control pais" placeholder="" required="required" max="100">
-                                                            Cidade: <input type="text" name="cidade0" class="form-control cidade" placeholder="" required="required" max="100">
-                                                            Aeroporto: <input type="text" name="aeroporto0" class="form-control aeroporto" placeholder="" required="required" max="100">
+                                                            <div class="row">
+                                                                <div class="col-xl-6">
+                                                                    Data: <input type="date" name="data0" class="form-control data" placeholder="dd/mm/aaaa" required="required">
+                                                                </div>
+                                                                <div class="col-xl-6 dataRetornoDiv">
+                                                                    Data retorno: <input type="date" name="dataRetorno0" class="form-control dataRetorno" placeholder="dd/mm/aaaa" value="9999-01-01" required="required">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-xl-6">
+                                                                    País origem: <input type="text" name="pais0" class="form-control pais" placeholder="" required="required" max="100">
+                                                                </div>
+                                                                <div class="col-xl-6">
+                                                                    País destino: <input type="text" name="paisDestino0" class="form-control paisDestino" placeholder="" required="required" max="100">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-xl-6">
+                                                                    Cidade origem: <input type="text" name="cidade0" class="form-control cidade" placeholder="" required="required" max="100">
+                                                                </div>
+                                                                <div class="col-xl-6">
+                                                                    Cidade destino: <input type="text" name="cidadeDestino0" class="form-control cidadeDestino" placeholder="" required="required" max="100">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-xl-6">
+                                                                    Aeroporto origem: <input type="text" name="aeroporto0" class="form-control aeroporto" placeholder="" required="required" max="100">
+                                                                </div>
+                                                                <div class="col-xl-6">
+                                                                    Aeroporto destino: <input type="text" name="aeroportoDestino0" class="form-control aeroportoDestino" placeholder="" required="required" max="100">
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <button class="btn btn-primary" data-role="add" id="addDataBtn">
+                                                    <button class="btn btn-primary addDataBtn" data-role="add">
                                                         <i class="fa fa-plus"></i>
                                                     </button>
                                                 </div>  <!-- /div.form-inline -->

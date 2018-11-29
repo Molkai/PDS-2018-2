@@ -46,10 +46,17 @@ class PedidosController extends Controller {
         }
 
         $i = 0;
+        if($request->tipo_viagem == 2){
+            $dados = ['pedido_id' => $pedido_id, 'email_cliente' => $user->email_cliente, 'data' => $request['data'.$i], 'pais' => $request['pais'.$i], 'cidade' => $request['cidade'.$i], 'aeroporto' => $request['aeroporto'.$i], 'paisDestino' => $request['paisDestino'.$i], 'cidadeDestino' => $request['cidadeDestino'.$i], 'aeroportoDestino' => $request['aeroportoDestino'.$i]];
+            Data::create($dados);
+            $dados = ['pedido_id' => $pedido_id, 'email_cliente' => $user->email_cliente, 'data' => $request['dataRetorno'.$i], 'pais' => $request['paisDestino'.$i], 'cidade' => $request['cidadeDestino'.$i], 'aeroporto' => $request['aeroportoDestino'.$i], 'paisDestino' => $request['pais'.$i], 'cidadeDestino' => $request['cidade'.$i], 'aeroportoDestino' => $request['aeroporto'.$i]];
+            Data::create($dados);
+            $i++;
+        }
         while (true) {
             if(!isset($request['data'.$i]))
                 break;
-            $dados = ['pedido_id' => $pedido_id, 'email_cliente' => $user->email_cliente, 'data' => $request['data'.$i], 'pais' => $request['pais'.$i], 'cidade' => $request['cidade'.$i], 'aeroporto' => $request['aeroporto'.$i],];
+            $dados = ['pedido_id' => $pedido_id, 'email_cliente' => $user->email_cliente, 'data' => $request['data'.$i], 'pais' => $request['pais'.$i], 'cidade' => $request['cidade'.$i], 'aeroporto' => $request['aeroporto'.$i], 'paisDestino' => $request['paisDestino'.$i], 'cidadeDestino' => $request['cidadeDestino'.$i], 'aeroportoDestino' => $request['aeroportoDestino'.$i]];
             Data::create($dados);
             $i++;
         }
