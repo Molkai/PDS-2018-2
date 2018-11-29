@@ -51,7 +51,8 @@
                             <button type="submit" class="btn btn-default" id="cadastrar">Cadastrar</button>
                         </div>
                     </form>
-                    <form class="form-horizontal" id="formSenhaAgente">
+                    <form class="form-horizontal" id="formSenhaAgente" method="post" action="{{action('AgenteController@enviaEmailRecAgente')}}">
+                        @csrf
                         <div class="form-group">
                             <div class="col-xs-12 col-sm-12 form-control-static">
                                 <input type="email" name="email" class="form-control" id="emailSenhaAgente" placeholder="Insira o email aqui" maxlength="100" required>

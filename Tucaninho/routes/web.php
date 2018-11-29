@@ -65,6 +65,18 @@ Route::post('/agente/login', 'AgenteAuth\AgenteLoginController@authenticate');
 
 Route::post('/agente/register', 'AgenteAuth\AgenteRegisterController@create');
 
+Route::post('/agente/recuperar', 'AgenteController@enviaEmailRecAgente');
+
+Route::post('/agente/alterar_senha', 'AgenteController@alterarSenha');
+
 Route::get('/cliente/recuperar/{encrypted_token}', 'ClienteController@recuperarSenha')->name('cliente.recuperar_senha');
 
 Route::get('/cliente/cancelar_rec/{encrypted_email}', 'ClienteController@cancelarRecSenha')->name('cliente.cancelar_recuperacao');
+
+Route::get('/agente/recuperar/{encrypted_token}', 'AgenteController@recuperarSenha')->name('agente.recuperar_senha');
+
+Route::get('/agente/cancelar_rec/{encrypted_email}', 'AgenteController@cancelarRecSenha')->name('agente.cancelar_recuperacao');
+
+/*Route::get('/mail', function(){
+    return new App\Mail\RecuperarSenha('teste', 'teste');
+});*/

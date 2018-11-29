@@ -69,7 +69,7 @@ class ClienteController extends Controller {
 
         $cliente->update();
 
-        return view('/')->with(['success' => 'Operação de recuperação de senha cancelada com sucesso.']);
+        return redirect('/')->with(['success' => 'Operação de recuperação de senha cancelada com sucesso.']);
     }
 
     public function alterarSenha(Request $request){
