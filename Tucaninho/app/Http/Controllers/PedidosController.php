@@ -112,6 +112,14 @@ class PedidosController extends Controller {
         return response()->json('Sucesso.');
     }
 
+    public function aceitaOferta($encrypted_email_cliente, $encrypted_email_agente, $encrypted_pedido_id, $encrypted_preco){
+        return view('pagamento')->with(['email_cliente' => decrypt($encrypted_email_cliente), 'email_agente' => decrypt($encrypted_email_agente), 'pedido_id' => decrypt($encrypted_pedido_id), 'preco' => decrypt($encrypted_preco)]);
+    }
+
+    public function confirmaPagamento(Request $request){
+        return redirect()->action('PedidosController@listaPedidosCliente');
+    }
+
     public function verificaExpirou($pedidos, $collection){
         $date = Carbon::now('America/Sao_Paulo');
         if($collection){

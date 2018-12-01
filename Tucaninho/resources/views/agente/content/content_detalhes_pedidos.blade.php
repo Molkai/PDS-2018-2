@@ -37,14 +37,41 @@
                 precoNum = precoNum.replace('$', '');
                 $("input[name='preco']").val((parseFloat(precoNum)).toFixed(2));
             });
-            $("#altera_oferta").click(function(e){
-                e.preventDefault();
-                $("#card_oferta").hide();
-                $('#form-oferta').show();
-                $('#descricao').val('{{$oferta->descricao}}');
-                $('#preco').val('{{$oferta->preco/1.1}}');
-                $('#disabledPreco').val('{{$oferta->preco}}');
-            });
+            @if($oferta!=null)
+                $("#altera_oferta").click(function(e){
+                    e.preventDefault();
+                    $("#card_oferta").hide();
+                    $('#form-oferta').show();
+                    $('#descricao').val('{{$oferta->descricao}}');
+                    $('#preco').val('{{$oferta->preco/1.1}}');
+                    $('#disabledPreco').val('{{$oferta->preco}}');
+                });
+
+                $(".btn-send-message").click(function(e) {
+                    e.preventDefault();
+                    let email_cliente = '{{$oferta->email_cliente}}';
+                    let pedido_id = '{{$oferta->pedido_id}}';
+                    let mensagem = $(".message-text").val();
+                    $.post(
+                        "{{action('MensagemController@cadastraMensagemAgente')}}",
+                        {
+                            email_cliente: email_cliente,
+                            pedido_id: pedido_id,
+                            Mensagem: mensagem,
+                            _token: '{{csrf_token()}}'
+                        },
+                        function(data){
+                            if(!(data===null))
+                                $('.messagesCardsDiv').append('<br> <div class="card col-xl-6" style="background-color: lightgreen;"> <div class="col-xl-12"> <p class="otherText">'+data.mensagem+'</p> </div> </div>');
+                            $(".message-text").val('');
+                            console.log(data);
+                        },
+                        "json"
+                    ).fail(function(data){
+                        console.log(data);
+                    });
+                });
+            @endif
         });
 
         $('.messagesDiv').hide();
@@ -112,31 +139,6 @@
                 else{
                     alert("Operação cancelada.");
                 }
-            });
-        });
-
-        $(".btn-send-message").click(function(e) {
-            e.preventDefault();
-            let email_cliente = '{{$oferta->email_cliente}}';
-            let pedido_id = '{{$oferta->pedido_id}}';
-            let mensagem = $(".message-text").val();
-            $.post(
-                "{{action('MensagemController@cadastraMensagemAgente')}}",
-                {
-                    email_cliente: email_cliente,
-                    pedido_id: pedido_id,
-                    Mensagem: mensagem,
-                    _token: '{{csrf_token()}}'
-                },
-                function(data){
-                    if(!(data===null))
-                        $('.messagesCardsDiv').append('<br> <div class="card col-xl-6" style="background-color: lightgreen;"> <div class="col-xl-12"> <p class="otherText">'+data.mensagem+'</p> </div> </div>');
-                    $(".message-text").val('');
-                    console.log(data);
-                },
-                "json"
-            ).fail(function(data){
-                console.log(data);
             });
         });
     </script>

@@ -43,6 +43,10 @@
             });
         });
 
+        $(".aceita_oferta").click(function(){
+            window.location = $(this).data("oferta");
+        });
+
     </script>
 @endsection
 

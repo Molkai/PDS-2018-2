@@ -33,6 +33,10 @@ Route::middleware('clienteAuth')->group(function(){
   Route::post('/cliente/novo', 'PedidosController@cadastraPedido');
 
   Route::post('/cliente/remove_row', 'PedidosController@deleteRow');
+
+  Route::get('/pagamento/{encrypted_email_cliente}/{encrypted_email_agente}/{encrypted_pedido_id}/{encrypted_preco}', 'PedidosController@aceitaOferta');
+
+  Route::post('/pagamento', 'PedidosController@confirmaPagamento');
 });
 
 Route::middleware('agenteAuth')->group(function(){
@@ -76,7 +80,3 @@ Route::get('/cliente/cancelar_rec/{encrypted_email}', 'ClienteController@cancela
 Route::get('/agente/recuperar/{encrypted_token}', 'AgenteController@recuperarSenha')->name('agente.recuperar_senha');
 
 Route::get('/agente/cancelar_rec/{encrypted_email}', 'AgenteController@cancelarRecSenha')->name('agente.cancelar_recuperacao');
-
-Route::get('/mail/{usuario}/{email}', function($usuario, $email){
-    return view('recuperar_senha')->with(['usuario' => $usuario, 'email' => $email]);
-});

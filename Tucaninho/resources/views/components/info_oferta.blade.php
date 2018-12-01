@@ -3,7 +3,7 @@
 @if($displayButton==true)
     <small class="text-muted float-right">Posted by {{$oferta->email_agente}}</small>
     <br>
-    <button type="button" class="btn btn-warning">Aceitar Oferta</button>
+    <button type="button" class="btn btn-warning aceita_oferta" data-oferta="{{action('PedidosController@aceitaOferta', [encrypt($oferta->email_cliente), encrypt($oferta->email_agente), encrypt($oferta->pedido_id), encrypt($oferta->preco)])}}">Aceitar Oferta</button>
 @else
     <small class="text-muted float-right">Sent to {{$oferta->email_cliente}}</small>
 
