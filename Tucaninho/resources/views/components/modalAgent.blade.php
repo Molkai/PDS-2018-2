@@ -1,8 +1,8 @@
 <div class="modal fade" id="modalAgenteLogin" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <div class="modal-content" id="modalAgenteId">
+        <div class="modal-content modalClass">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalAgenteTitle">Login Agente</h5>
+                <h5 class="modal-title modalTitle">Login Agente</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeBtnAgente">
                 <span aria-hidden="true">&times;</span>
                 </button>

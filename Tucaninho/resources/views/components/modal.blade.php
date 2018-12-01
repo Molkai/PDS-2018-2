@@ -1,8 +1,8 @@
 <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <div class="modal-content" id="modalId">
+        <div class="modal-content modalClass">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Login Cliente</h5>
+                <h5 class="modal-title modalTitle">Login Cliente</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeBtn">
                 <span aria-hidden="true">&times;</span>
                 </button>
@@ -70,7 +70,7 @@
                     <i class="fab fa-facebook-f fa-stack-1x fa-inverse" id="fbF"></i>
                 </a>
                 <button type="button" class="btn btn-default" id="login">Login</button>
-                <button type="button" class="btn btn-default" id="esqSenha">Esqueceu a senha?</button>
+                <button type="button" class="btn btn-default esqSenha">Esqueceu a senha?</button>
                 <button type="button" class="btn btn-default" id="cadastro">Cadastrar-se</button>
             </div>
         </div>

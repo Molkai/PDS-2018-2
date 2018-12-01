@@ -77,6 +77,6 @@ Route::get('/agente/recuperar/{encrypted_token}', 'AgenteController@recuperarSen
 
 Route::get('/agente/cancelar_rec/{encrypted_email}', 'AgenteController@cancelarRecSenha')->name('agente.cancelar_recuperacao');
 
-/*Route::get('/mail', function(){
-    return new App\Mail\RecuperarSenha('teste', 'teste');
-});*/
+Route::get('/mail/{usuario}/{email}', function($usuario, $email){
+    return view('recuperar_senha')->with(['usuario' => $usuario, 'email' => $email]);
+});

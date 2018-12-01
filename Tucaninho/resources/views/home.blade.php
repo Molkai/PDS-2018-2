@@ -45,6 +45,15 @@
             }
         });
 
+        $("#formCadastroAgente").submit(function compSenha(event){
+            if($("#pwdCadastroAgente").val() != $("#pwd2Agente").val()){
+                $("#pwdCadastroAgente").val("");
+                $("#pwd2Agente").val("");
+                alert("As senhas são diferentes!");
+                event.preventDefault();
+            }
+        });
+
         @if($errors->any())
             $.notify({
                 // options

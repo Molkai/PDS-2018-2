@@ -1,9 +1,9 @@
-#modalId {
+.modalClass {
     background-color: #343131;
     border: 2px solid gold;
 }
 
-#exampleModalLongTitle {
+.modalTitle {
     color: gold;
 }
 
@@ -117,15 +117,6 @@
   text-decoration: none;
   cursor: pointer;
   background-color: limegreen;
-}
-
-#modalAgenteId {
-    background-color: #343131;
-    border: 2px solid gold;
-}
-
-#modalAgenteTitle {
-    color: gold;
 }
 
 #esqSenhaAgente {
