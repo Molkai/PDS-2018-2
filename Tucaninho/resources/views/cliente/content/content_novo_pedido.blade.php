@@ -71,21 +71,21 @@
                 $(".dataRetornoDiv").hide();
                 $(".dataRetorno").val("9999-01-01");
                 if($(this).val() == 0){
-                    $("#obs").text("Apenas viagem de ida para um destino dentro do país.");
+                    $("#obs").text("Apenas viagem de ida para um destino dentro do país de origem.");
                     while(numDatas > 1){
                         $(".rmDataBtn"+(numDatas-1)).trigger('click');
                     }
                     $(".addDataBtn").hide();
                 }
                 else if($(this).val() == 1){
-                    $("#obs").text("Apenas viagem de ida para um destino fora do país.");
+                    $("#obs").text("Apenas viagem de ida para um destino fora do país de origem.");
                     while(numDatas > 1){
                         $(".rmDataBtn"+(numDatas-1)).trigger('click');
                     }
                     $(".addDataBtn").hide();
                 }
                 else if($(this).val() == 2){
-                    $("#obs").text("Viagem de ida e volta, saída de um lugar com trecho de retorno.");
+                    $("#obs").text("Viagem de ida e volta, trecho de retorno com sáida do mesmo lugar.");
                     while(numDatas > 1){
                         $(".rmDataBtn"+(numDatas-1)).trigger('click');
                     }
@@ -101,7 +101,7 @@
                     }
                 }
                 else if($(this).val() == 4){
-                    $("#obs").text("Viagem para andar pelo mundo, podendo utilizar varios trajetos de  avião (Minimo de 3 trajetos de avião).");
+                    $("#obs").text("Viagem para andar pelo mundo, podendo utilizar varios trajetos de  avião (Minimo de 3 trajetos de avião). Para mais informações acesse ").append("<a href=\"http://projetoviravolta.com/dicas-para-viajar-o-mundo/passagem-volta-ao-mundo/\">aqui</a>");
                     $(".addDataBtn").show();
                     while(numDatas < 3){
                         $(".addDataBtn").trigger('click');
