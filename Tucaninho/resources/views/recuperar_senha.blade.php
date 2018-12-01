@@ -21,16 +21,12 @@
         <!-- Custom styles for this template -->
         <link href="{{asset('home/css/agency.min.css')}}" rel="stylesheet">
 
+        <script src="{{asset('vendor/jquery/jquery.min.js')}}"></script>
+
         <!-- Plugin JavaScript -->
         <script src="{{asset('vendor/jquery-easing/jquery.easing.min.js')}}"></script>
 
         <script src="{{asset('js/bootstrap-notify.min.js')}}"></script>
-
-        <style type="text/css">
-
-
-
-        </style>
 
         <script type="text/javascript">
 

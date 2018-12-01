@@ -70,7 +70,7 @@
                     <i class="fab fa-facebook-f fa-stack-1x fa-inverse" id="fbF"></i>
                 </a>
                 <button type="button" class="btn btn-default" id="login">Login</button>
-                <button type="button" class="btn btn-default esqSenha">Esqueceu a senha?</button>
+                <button type="button" class="btn btn-default" id="esqSenha">Esqueceu a senha?</button>
                 <button type="button" class="btn btn-default" id="cadastro">Cadastrar-se</button>
             </div>
         </div>
