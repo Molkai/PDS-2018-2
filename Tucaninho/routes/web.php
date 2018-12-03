@@ -37,6 +37,8 @@ Route::middleware('clienteAuth')->group(function(){
   Route::get('/pagamento/{encrypted_email_cliente}/{encrypted_email_agente}/{encrypted_pedido_id}/{encrypted_preco}', 'PedidosController@aceitaOferta');
 
   Route::post('/pagamento', 'PedidosController@confirmaPagamento');
+
+  Route::get('/cancela_compra/{encrypted_email_cliente}/{encrypted_email_agente}/{encrypted_pedido_id}', 'PedidosController@cancelaCompra');
 });
 
 Route::middleware('agenteAuth')->group(function(){

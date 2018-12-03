@@ -47,6 +47,10 @@
             window.location = $(this).data("oferta");
         });
 
+        $("#cancela_compra").click(function(){
+            window.location = $(this).data("href");
+        });
+
     </script>
 @endsection
 

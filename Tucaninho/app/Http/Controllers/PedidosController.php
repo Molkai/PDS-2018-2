@@ -143,6 +143,27 @@ class PedidosController extends Controller {
         return redirect()->action('PedidosController@listaPedidosCliente');
     }
 
+    public function cancelaCompra($encrypted_email_cliente, $encrypted_email_agente, $encrypted_pedido_id){
+        $email_cliente = decrypt($encrypted_email_cliente);
+        $email_agente = decrypt($encrypted_email_agente);
+        $pedido_id = decrypt($encrypted_pedido_id);
+
+        $pedido = Pedido::where('email_cliente', $email_cliente)
+                        ->where('pedido_id', $pedido_id)
+                        ->first();
+        $pedido->estado = 0;
+        $pedido->save();
+
+        $oferta = Oferta::where('email_agente', $email_agente)
+                        ->where('email_cliente', $email_cliente)
+                        ->where('pedido_id', $pedido_id)
+                        ->first();
+        $oferta->estado = 0;
+        $oferta->save();
+
+        return redirect()->action('PedidosController@listaPedidosCliente');
+    }
+
     public function verificaExpirou($pedidos, $collection){
         $date = Carbon::now('America/Sao_Paulo');
         if($collection){

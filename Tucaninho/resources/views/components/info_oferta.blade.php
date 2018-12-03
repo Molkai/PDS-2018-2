@@ -3,7 +3,11 @@
 @if($displayButton==true)
     <small class="text-muted float-right">Posted by {{$oferta->email_agente}}</small>
     <br>
-    <button type="button" class="btn btn-warning aceita_oferta" data-oferta="{{action('PedidosController@aceitaOferta', [encrypt($oferta->email_cliente), encrypt($oferta->email_agente), encrypt($oferta->pedido_id), encrypt($oferta->preco)])}}">Aceitar Oferta</button>
+    @if($estado=='outro')
+        <button type="button" class="btn btn-warning aceita_oferta" data-oferta="{{action('PedidosController@aceitaOferta', [encrypt($oferta->email_cliente), encrypt($oferta->email_agente), encrypt($oferta->pedido_id), encrypt($oferta->preco)])}}">Aceitar Oferta</button>
+    @else
+        <button type="button" class="btn btn-danger" id="cancela_compra"  data-href="{{action('PedidosController@cancelaCompra', [encrypt($oferta->email_cliente), encrypt($oferta->email_agente), encrypt($oferta->pedido_id)])}}">Cancelar Compra</button>
+    @endif
 @else
     <small class="text-muted float-right">Sent to {{$oferta->email_cliente}}</small>
 
@@ -29,7 +33,7 @@
                     <textarea id="message" name="message" class="form-control message-text" rows="2" required="required" maxlength="1000"></textarea>
                     <div class="help-block with-errors"></div>
                     <label class="btn btn-outline-dark" for="my-file-selector">
-                        <input id="my-file-selector" type="file" style="display:none" 
+                        <input id="my-file-selector" type="file" style="display:none"
                         onchange="$('#upload-file-info').html(this.files[0].name)">
                         Anexar um arquivo...
                     </label>
