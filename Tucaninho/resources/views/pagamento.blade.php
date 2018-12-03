@@ -103,7 +103,7 @@
 
                         <input type="hidden" name="email_cliente" value="{{$email_cliente}}">
                         <input type="hidden" name="email_agente" value="{{$email_agente}}">
-                        <!--<input type="hidden" name="pedido_id" value="{{$pedido_id}}">-->
+                        <input type="hidden" name="pedido_id" value="{{$pedido_id}}">
 
                     </form>
 

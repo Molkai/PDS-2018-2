@@ -32,7 +32,7 @@ class PedidosController extends Controller {
         $user = Auth::guard('cliente')->user();
         $pedido_id = Carbon::now('America/Sao_Paulo');
 
-        $dados = ['pedido_id' => $pedido_id, 'email_cliente' => $user->email_cliente, 'descricao' => $request->descricao, 'qnt_adultos' => $request->qnt_adultos, 'qnt_criancas' => $request->qnt_criancas, 'qnt_bebes' => $request->qnt_bebes, 'tipo_viagem' => $request->tipo_viagem, 'tipo_passagem' => $request->tipo_passagem, 'preferencia'=> $request->preferencia, 'preco' => $request->preco, 'expirou' => 0];
+        $dados = ['pedido_id' => $pedido_id, 'email_cliente' => $user->email_cliente, 'descricao' => $request->descricao, 'qnt_adultos' => $request->qnt_adultos, 'qnt_criancas' => $request->qnt_criancas, 'qnt_bebes' => $request->qnt_bebes, 'tipo_viagem' => $request->tipo_viagem, 'tipo_passagem' => $request->tipo_passagem, 'preferencia'=> $request->preferencia, 'preco' => $request->preco];
         Pedido::create($dados);
 
         $link = 'link';
@@ -69,9 +69,15 @@ class PedidosController extends Controller {
         $match = ['pedido_id' => decrypt($id), 'email_cliente' => $user->email_cliente];
         $pedido = Pedido::where($match)->first();
         $links = Url::where($match)->get();
-        $ofertas = Oferta::where($match)->get();
+        if($pedido->estado==2){
+            $ofertas = Oferta::where($match)->where('estado', 2)->get();
+            $m = Mensagem::where($match)->where('email_agente', $ofertas[0]->email_agente)->orderBy('mensagem_id', 'asc')->get();
+        }
+        else{
+            $ofertas = Oferta::where($match)->get();
+            $m = Mensagem::where($match)->orderBy('mensagem_id', 'asc')->get();
+        }
         $datas = Data::where($match)->get();
-        $m = Mensagem::where($match)->orderBy('mensagem_id', 'asc')->get();
         $mensagens = [];
         foreach ($ofertas as $oferta) {
             $mensagens[$oferta->email_agente] = [];
@@ -117,6 +123,23 @@ class PedidosController extends Controller {
     }
 
     public function confirmaPagamento(Request $request){
+        $email_cliente = $request->email_cliente;
+        $email_agente = $request->email_agente;
+        $pedido_id = $request->pedido_id;
+
+        $pedido = Pedido::where('email_cliente', $email_cliente)
+                        ->where('pedido_id', $pedido_id)
+                        ->first();
+        $pedido->estado = 2;
+        $pedido->save();
+
+        $oferta = Oferta::where('email_agente', $email_agente)
+                        ->where('email_cliente', $email_cliente)
+                        ->where('pedido_id', $pedido_id)
+                        ->first();
+        $oferta->estado = 2;
+        $oferta->save();
+
         return redirect()->action('PedidosController@listaPedidosCliente');
     }
 
@@ -124,14 +147,14 @@ class PedidosController extends Controller {
         $date = Carbon::now('America/Sao_Paulo');
         if($collection){
             foreach ($pedidos as $pedido) {
-                if($pedido->expirou===FALSE && Carbon::parse($pedido->pedido_id, 'America/Sao_Paulo')->addDay()->lt($date)){
-                    $pedido->expirou = TRUE;
+                if($pedido->estado==0 && Carbon::parse($pedido->pedido_id, 'America/Sao_Paulo')->addDay()->lt($date)){
+                    $pedido->estado = 1;
                 }
             }
         }
         else{
-            if($pedidos->expirou===FALSE && Carbon::parse($pedidos->pedido_id, 'America/Sao_Paulo')->addDay()->lt($date)){
-                $pedidos->expirou = TRUE;
+            if($pedidos->estado==0 && Carbon::parse($pedidos->pedido_id, 'America/Sao_Paulo')->addDay()->lt($date)){
+                $pedidos->estado = 1;
             }
         }
     }

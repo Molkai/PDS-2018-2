@@ -68,7 +68,7 @@
                         </div>
                         <div class="card-body">
                             @foreach($ofertas as $oferta)
-                                @include('components.info_oferta', ['oferta' => $oferta, 'displayButton' => true, 'mensagens' => $mensagens[$oferta->email_agente], 'isCliente' => true])
+                                @include('components.info_oferta', ['oferta' => $oferta, 'displayButton' => true, 'estado' => $pedido->estado==2?'pendente':'outro', 'mensagens' => $mensagens[$oferta->email_agente], 'isCliente' => true])
                             @endforeach
                         </div>
                     </div>

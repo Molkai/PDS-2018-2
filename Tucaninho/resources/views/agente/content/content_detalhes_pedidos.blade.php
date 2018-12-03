@@ -158,7 +158,7 @@
         @include('components.info_pedido', ['pedido' => $pedido, 'links' => $links, 'datas' => $datas])
 
 
-        @if(!$pedido->expirou && $oferta==null)
+        @if($pedido->estado==0 && $oferta==null)
             @include('components.form_oferta', ['displayButton' => true])
         @elseif($oferta!=null)
             <div class="card card-outline-secondary my-4" id="card_oferta">
