@@ -28,6 +28,15 @@
                 <div class="form-group">
                     <textarea id="message" name="message" class="form-control message-text" rows="2" required="required" maxlength="1000"></textarea>
                     <div class="help-block with-errors"></div>
+                    <label class="btn btn-outline-dark">
+                        Anexar um arquivo... <input type="file" hidden>
+                    </label>
+                    <label class="btn btn-outline-dark" for="my-file-selector">
+                        <input id="my-file-selector" type="file" style="display:none" 
+                        onchange="$('#upload-file-info').html(this.files[0].name)">
+                        Anexar um arquivo...
+                    </label>
+                    <span class='label label-info' id="upload-file-info"></span>
                 </div>
             </div>
             <div class="col-xl-1">
