@@ -16,7 +16,7 @@ class Mensagem extends Model
     protected $primaryKey = ['pedido_id', 'email_cliente', 'email_agente'];
 
 
-    protected $fillable = ['pedido_id', 'email_cliente', 'email_agente', 'mensagem_id', 'mensagem', 'isCliente'];
+    protected $fillable = ['pedido_id', 'email_cliente', 'email_agente', 'mensagem_id', 'mensagem', 'isCliente', 'isFile', 'fileName'];
 
     protected function setKeysForSaveQuery(Builder $query)
     {

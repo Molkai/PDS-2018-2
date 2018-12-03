@@ -82,3 +82,5 @@ Route::get('/cliente/cancelar_rec/{encrypted_email}', 'ClienteController@cancela
 Route::get('/agente/recuperar/{encrypted_token}', 'AgenteController@recuperarSenha')->name('agente.recuperar_senha');
 
 Route::get('/agente/cancelar_rec/{encrypted_email}', 'AgenteController@cancelarRecSenha')->name('agente.cancelar_recuperacao');
+
+Route::get('/download_file/{cliente}/{agente}/{pedido_id}/{fileName}', 'MensagemController@downloadFile');

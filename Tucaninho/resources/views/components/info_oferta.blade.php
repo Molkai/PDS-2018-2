@@ -26,20 +26,24 @@
         @endforeach
     </div>
     <hr>
-    <form id="sendMessageForm" method="get" action="#" role="form">
+    <form id="sendMessageForm" class="sendMessageForm" method="post" action="#" role="form" enctype="multipart/form-data">
+        @csrf
         <div class="row content-center">
             <div class="col-xl-11">
                 <div class="form-group">
                     <textarea id="message" name="message" class="form-control message-text" rows="2" required="required" maxlength="1000"></textarea>
                     <div class="help-block with-errors"></div>
-                    <label class="btn btn-outline-dark" for="my-file-selector">
-                        <input id="my-file-selector" type="file" style="display:none"
-                        onchange="$('#upload-file-info').html(this.files[0].name)">
+                    <label class="btn btn-outline-dark">
+                        <input type="file" class="fileToUpload" value="" name="fileToUpload" style="display:none"
+                        onchange="$('.label-info:eq('+$('.fileToUpload').index($(this))+')').html(this.files[0].name)">
                         Anexar um arquivo...
                     </label>
-                    <span class='label label-info' id="upload-file-info"></span>
+                    <span class="label label-info"></span>
                 </div>
             </div>
+            <input type="hidden" name="email_cliente" value="{{ $oferta->email_cliente }}">
+            <input type="hidden" name="email_agente" value="{{ $oferta->email_agente }}">
+            <input type="hidden" name="pedido_id" value="{{ $oferta->pedido_id }}">
             <div class="col-xl-1">
                 <div class="form-group">
                     <input type="submit" class="btn btn-warning btn-send btn-send-message" value="enviar" data-id="{{ $oferta->pedido_id }}" data-agente="{{ $oferta->email_agente }}">

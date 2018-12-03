@@ -52,6 +52,28 @@
                     let email_cliente = '{{$oferta->email_cliente}}';
                     let pedido_id = '{{$oferta->pedido_id}}';
                     let mensagem = $(".message-text").val();
+                    let fileName = $(".fileToUpload").val();
+                    if(fileName!=''){
+                        let send = new FormData($(".sendMessageForm")[0]);
+                        $.ajax({
+                            url: "{{action('MensagemController@cadastraMensagemAgente')}}",
+                            type: 'POST',
+                            data: send,
+                            success: function(data) {
+                                if(data!==null)
+                                    $('.messagesCardsDiv').append('<br> <div class="card col-xl-6" style="background-color: lightgreen;"> <div class="col-xl-12"> <a href="/download_file/'+data.fileName+'">'+data.mensagem+'</a> </div> </div>');
+                                $(".message-text").val('');
+                                $(".fileToUpload").val('');
+                                $(".label-info").text('');
+                            },
+                            cache: false,
+                            contentType: false,
+                            processData: false,
+                        }).fail(function(data){
+                            console.log(data);
+                        });
+                        return;
+                    }
                     $.post(
                         "{{action('MensagemController@cadastraMensagemAgente')}}",
                         {

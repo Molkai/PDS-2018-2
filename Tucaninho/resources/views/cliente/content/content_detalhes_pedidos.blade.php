@@ -19,23 +19,44 @@
 
         $(".btn-send-message").click(function(e) {
             e.preventDefault();
+            let send;
             var index = $('.btn-send-message').index($(this));
             let email_agente = $(this).data("agente");
             let pedido_id = $(this).data("id");
             let mensagem = $(".message-text:eq("+index+")").val();
+            let fileName = $(".fileToUpload:eq("+index+")").val();
+            if(fileName!=''){
+                send = new FormData($(".sendMessageForm")[index]);
+                $.ajax({
+                    url: "{{action('MensagemController@cadastraMensagemCliente')}}",
+                    type: 'POST',
+                    data: send,
+                    success: function(data) {
+                        if(data!==null)
+                            $('.messagesCardsDiv:eq('+index+')').append('<br> <div class="card col-xl-6" style="background-color: lightgreen;"> <div class="col-xl-12"> <a href="/download_file/'+data.fileName+'">'+data.mensagem+'</a> </div> </div>');
+                        $(".message-text:eq("+index+")").val('');
+                        $(".fileToUpload:eq("+index+")").val('');
+                        $(".label-info:eq("+index+")").text('');
+                    },
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                });
+                return;
+            }
+            else if(mensagem!=''){
+                send = { email_agente: email_agente, pedido_id: pedido_id, Mensagem: mensagem, _token: '{{csrf_token()}}' };
+            }
+            else
+                return;
             $.post(
                 "{{action('MensagemController@cadastraMensagemCliente')}}",
-                {
-                    email_agente: email_agente,
-                    pedido_id: pedido_id,
-                    Mensagem: mensagem,
-                    _token: '{{csrf_token()}}'
-                },
+                send,
                 function(data){
-                    if(!(data===null))
+                    if(data!==null){
                         $('.messagesCardsDiv:eq('+index+')').append('<br> <div class="card col-xl-6" style="background-color: lightgreen;"> <div class="col-xl-12"> <p class="otherText">'+data.mensagem+'</p> </div> </div>');
+                    }
                     $(".message-text:eq("+index+")").val('');
-                    console.log(data);
                 },
                 "json"
             ).fail(function(data){
