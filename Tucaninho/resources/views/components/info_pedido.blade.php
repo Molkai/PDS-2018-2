@@ -72,8 +72,27 @@
     @if($pedido->preferencia!='')
         <p class="card-text"><b>Preferências:</b> {{ $pedido->preferencia }}</p>
     @endif
+    @if((isset($estado_cliente) && $estado_cliente==3)||(isset($estado_agente) && $estado_agente==3))
+        <p class="card-text"><b>Voucher:</b> <a href="{{action('PedidosController@downloadVoucher', explode('/', $pedido->filePath))}}">{{ $pedido->fileName }}</a></p>
+    @endif
     <hr>
     <p class="card-text">{{ $pedido->descricao }}</p>
+
+    @if(isset($estado_agente) && $estado_agente==2)
+        <form id="voucherForm" method="post" action="{{action('PedidosController@uploadVoucher')}}" role="form" enctype="multipart/form-data">
+            @csrf
+            <input type="hidden" name="email_cliente" value="{{ $pedido->email_cliente }}">
+            <input type="hidden" name="email_agente" value="{{ $email_agente }}">
+            <input type="hidden" name="pedido_id" value="{{ $pedido->pedido_id }}">
+            <label class="btn btn-outline-dark">
+                <input type="file" id="file_voucher" required="required" name="fileToUpload" style="display:none"
+                onchange="$('#label_voucher').html(this.files[0].name)">
+                Anexar o Voucher...
+            </label>
+            <span class="label label-info" id="label_voucher"></span>
+            <input type="submit" class="btn btn-warning" value="Enviar Voucher" id="envia_voucher">
+        </form>
+    @endif
 
   </div>
 </div>

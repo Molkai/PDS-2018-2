@@ -5,7 +5,7 @@
     <br>
     @if($estado=='outro')
         <button type="button" class="btn btn-warning aceita_oferta" data-oferta="{{action('PedidosController@aceitaOferta', [encrypt($oferta->email_cliente), encrypt($oferta->email_agente), encrypt($oferta->pedido_id), encrypt($oferta->preco)])}}">Aceitar Oferta</button>
-    @else
+    @elseif($estado=='pendente')
         <button type="button" class="btn btn-danger" id="cancela_compra"  data-href="{{action('PedidosController@cancelaCompra', [encrypt($oferta->email_cliente), encrypt($oferta->email_agente), encrypt($oferta->pedido_id)])}}">Cancelar Compra</button>
     @endif
 @else

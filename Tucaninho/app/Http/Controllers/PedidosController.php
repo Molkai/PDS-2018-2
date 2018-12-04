@@ -11,6 +11,7 @@ use App\Url;
 use App\Data;
 use App\Http\Requests\PedidoRequest;
 use Carbon\Carbon;
+use Storage;
 
 class PedidosController extends Controller {
     public function listaPedidosCliente(){
@@ -162,6 +163,44 @@ class PedidosController extends Controller {
         $oferta->save();
 
         return redirect()->action('PedidosController@listaPedidosCliente');
+    }
+
+    public function uploadVoucher(Request $request){
+        $email_cliente = $request->email_cliente;
+        $email_agente = $request->email_agente;
+        $pedido_id = $request->pedido_id;
+
+        $pedido = Pedido::where('pedido_id', $pedido_id)
+                        ->where('email_cliente', $email_cliente)
+                        ->first();
+
+        if(!$request->hasFile('fileToUpload') || !$request->file('fileToUpload')->isValid())
+            return redirect()->view('/');
+
+        $file = $request->file('fileToUpload');
+
+        $path = $file->store('/'.str_replace(['@', '.'], ['', ''], $email_cliente).'/'.str_replace(['@', '.'], ['', ''], $email_agente).'/'.str_replace([' ', '-', ':'], ['', '', ''],$pedido_id), 'dropbox');
+
+        $pedido->fileName = $file->getClientOriginalName();
+        $pedido->filePath = $path;
+        $pedido->estado = 3;
+        $pedido->save();
+
+        $oferta = Oferta::where('pedido_id', $pedido_id)
+                        ->where('email_cliente', $email_cliente)
+                        ->where('email_agente', $email_agente)
+                        ->first();
+
+        $oferta->estado=3;
+        $oferta->save();
+
+        Oferta::where('estado', '<>', 3)->delete();
+
+        return redirect()->action('PedidosController@listaPedidosAgente');
+    }
+
+    public function downloadVoucher($cliente, $agente, $pedido_id, $fileName){
+        return Storage::disk('dropbox')->download($cliente.'/'.$agente.'/'.$pedido_id.'/'.$fileName);
     }
 
     public function verificaExpirou($pedidos, $collection){

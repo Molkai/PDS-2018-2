@@ -57,6 +57,8 @@ Route::middleware('agenteAuth')->group(function(){
     Route::post('/agente/deleta_oferta', 'OfertaController@deletaOferta');
 
     Route::post('/agente/cria_mensagem', 'MensagemController@cadastraMensagemAgente');
+
+    Route::post('/agente/upload_voucher', 'PedidosController@uploadVoucher');
 });
 
 Route::post('/cliente/login', 'ClienteAuth\ClienteLoginController@authenticate');
@@ -84,3 +86,5 @@ Route::get('/agente/recuperar/{encrypted_token}', 'AgenteController@recuperarSen
 Route::get('/agente/cancelar_rec/{encrypted_email}', 'AgenteController@cancelarRecSenha')->name('agente.cancelar_recuperacao');
 
 Route::get('/download_file/{cliente}/{agente}/{pedido_id}/{fileName}', 'MensagemController@downloadFile');
+
+Route::get('/download_voucher/{cliente}/{agente}/{pedido_id}/{fileName}', 'PedidosController@downloadVoucher');

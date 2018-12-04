@@ -74,6 +74,8 @@
                         });
                         return;
                     }
+                    if(mensagem=='')
+                        return;
                     $.post(
                         "{{action('MensagemController@cadastraMensagemAgente')}}",
                         {
@@ -86,7 +88,6 @@
                             if(!(data===null))
                                 $('.messagesCardsDiv').append('<br> <div class="card col-xl-6" style="background-color: lightgreen;"> <div class="col-xl-12"> <p class="otherText">'+data.mensagem+'</p> </div> </div>');
                             $(".message-text").val('');
-                            console.log(data);
                         },
                         "json"
                     ).fail(function(data){
@@ -177,7 +178,7 @@
 
       <div class="col-md-12" id="conteudo">
 
-        @include('components.info_pedido', ['pedido' => $pedido, 'links' => $links, 'datas' => $datas])
+        @include('components.info_pedido', ['pedido' => $pedido, 'estado_agente' => (isset($oferta)?$oferta->estado:null), 'links' => $links, 'datas' => $datas, 'email_agente' => (isset($oferta)?$oferta->email_agente:null)])
 
 
         @if($pedido->estado==0 && $oferta==null)

@@ -84,7 +84,7 @@
 
             <div class="col-md-12">
 
-                @include('components.info_pedido', ['pedido' => $pedido, 'links' => $links, 'datas' => $datas])
+                @include('components.info_pedido', ['pedido' => $pedido, 'links' => $links, 'datas' => $datas, 'estado_cliente' => $pedido->estado])
 
                 @if(count($ofertas)>0)
                     <div class="card card-outline-secondary my-4">
@@ -93,7 +93,7 @@
                         </div>
                         <div class="card-body">
                             @foreach($ofertas as $oferta)
-                                @include('components.info_oferta', ['oferta' => $oferta, 'displayButton' => true, 'estado' => $pedido->estado==2?'pendente':'outro', 'mensagens' => $mensagens[$oferta->email_agente], 'isCliente' => true])
+                                @include('components.info_oferta', ['oferta' => $oferta, 'displayButton' => true, 'estado' => $pedido->estado==2?'pendente':($pedido->estado==3?'concluido':'outro'), 'mensagens' => $mensagens[$oferta->email_agente], 'isCliente' => true])
                             @endforeach
                         </div>
                     </div>
