@@ -69,7 +69,7 @@
               @else
                 <td>{{substr($pedido->descricao, 0, 57).'...'}}</td>
               @endif
-              @if($pedido->estado==3)
+              @if($pedido->estado==3 || $pedido->estado==4)
                 <td>Concluido</td>
               @elseif($pedido->estado==2)
                 <td>Pendente</td>
