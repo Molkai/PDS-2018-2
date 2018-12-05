@@ -39,6 +39,8 @@ Route::middleware('clienteAuth')->group(function(){
   Route::post('/pagamento', 'PedidosController@confirmaPagamento');
 
   Route::get('/cancela_compra/{encrypted_email_cliente}/{encrypted_email_agente}/{encrypted_pedido_id}', 'PedidosController@cancelaCompra');
+
+  Route::post('/cliente/avalia', 'AgenteController@atualizaAvaliacao');
 });
 
 Route::middleware('agenteAuth')->group(function(){
@@ -63,6 +65,8 @@ Route::middleware('agenteAuth')->group(function(){
     Route::get('/agente/dados_cadastro', 'AgenteController@carregaDadosAgente');
 
     Route::post('/agente/atualiza_cadastro', 'AgenteController@alterarDados');
+
+    Route::post('/agente/avalia', 'ClienteController@atualizaAvaliacao');
 });
 
 Route::post('/cliente/login', 'ClienteAuth\ClienteLoginController@authenticate');

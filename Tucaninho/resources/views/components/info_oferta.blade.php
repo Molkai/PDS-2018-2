@@ -3,10 +3,28 @@
 @if($displayButton==true)
     <small class="text-muted float-right">Posted by {{$oferta->email_agente}}</small>
     <br>
-    @if($estado=='outro')
+    @if($estado==0||$estado==1)
         <button type="button" class="btn btn-warning aceita_oferta" data-oferta="{{action('PedidosController@aceitaOferta', [encrypt($oferta->email_cliente), encrypt($oferta->email_agente), encrypt($oferta->pedido_id), encrypt($oferta->preco)])}}">Aceitar Oferta</button>
-    @elseif($estado=='pendente')
+    @elseif($estado==2)
         <button type="button" class="btn btn-danger" id="cancela_compra"  data-href="{{action('PedidosController@cancelaCompra', [encrypt($oferta->email_cliente), encrypt($oferta->email_agente), encrypt($oferta->pedido_id)])}}">Cancelar Compra</button>
+    @elseif($estado==3)
+        <form id="avaliacaoForm" class="form-inline" method="post" action="{{action('AgenteController@atualizaAvaliacao')}}" role="form">
+            @csrf
+            <input type="hidden" name="email_cliente" value="{{ $oferta->email_cliente }}">
+            <input type="hidden" name="email_agente" value="{{ $oferta->email_agente }}">
+            <input type="hidden" name="pedido_id" value="{{ $oferta->pedido_id }}">
+            <div class="form-group">
+                <select class="form-control input-sm" name="nota">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+            <input type="submit" class="btn btn-warning" value="Avaliar Cliente" id="envia_voucher">
+        </form>
     @endif
 @else
     <small class="text-muted float-right">Sent to {{$oferta->email_cliente}}</small>
