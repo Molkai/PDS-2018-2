@@ -82,4 +82,22 @@ class AgenteController extends Controller
 
         return redirect('/')->with(['success' => 'Senha alterada com sucesso.']);
     }
+
+    public function atualizaAvaliacao(Request $request){
+        $agente = Agente::where('email_agente', $request->email_agente)->first();
+
+        $agente->nota = (($agente->nota*$agente->qntAvaliacoes)+$request->nota)/($agente->qntAvaliacoes+1);
+        $agente->qntAvaliacoes += 1;
+
+        $agente->save();
+
+        $pedido = \App\Pedido::where('pedido_id', $request->pedido_id)
+                            ->where('email_cliente', $request->email_cliente)
+                            ->first();
+
+        $pedido->estado = 4;
+        $pedido->save();
+
+        return back();
+    }
 }

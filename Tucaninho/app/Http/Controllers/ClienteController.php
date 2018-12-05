@@ -81,4 +81,23 @@ class ClienteController extends Controller {
 
         return redirect('/')->with(['success' => 'Senha alterada com sucesso.']);
     }
+
+    public function atualizaAvaliacao(Request $request){
+        $cliente = Cliente::where('email_cliente', $request->email_cliente)->first();
+
+        $cliente->nota = (($cliente->nota*$cliente->qntAvaliacoes)+$request->nota)/($cliente->qntAvaliacoes+1);
+        $cliente->qntAvaliacoes += 1;
+
+        $cliente->save();
+
+        $oferta = \App\Oferta::where('pedido_id', $request->pedido_id)
+                            ->where('email_cliente', $request->email_cliente)
+                            ->where('email_agente', $request->email_agente)
+                            ->first();
+
+        $oferta->estado = 4;
+        $oferta->save();
+
+        return back();
+    }
 }
