@@ -36,6 +36,9 @@
       <a href="{{action('PedidosController@listaPedidosAgente')}}">Pedidos</a>
   </li>
   <li>
+      <a href="{{action('AgenteController@carregaDadosAgente')}}">Alterar dados</a>
+  </li>
+  <li>
       <a id="deletaAgente" href="#">Deletar Conta</a>
   </li>
   <li>

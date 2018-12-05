@@ -59,6 +59,10 @@ Route::middleware('agenteAuth')->group(function(){
     Route::post('/agente/cria_mensagem', 'MensagemController@cadastraMensagemAgente');
 
     Route::post('/agente/upload_voucher', 'PedidosController@uploadVoucher');
+
+    Route::get('/agente/dados_cadastro', 'AgenteController@carregaDadosAgente');
+
+    Route::post('/agente/atualiza_cadastro', 'AgenteController@alterarDados');
 });
 
 Route::post('/cliente/login', 'ClienteAuth\ClienteLoginController@authenticate');
