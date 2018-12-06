@@ -1,7 +1,7 @@
 <p class="h4">R$ {{ $oferta->preco }}</p>
 <p>{{ $oferta->descricao }}</p>
 @if($displayButton==true)
-    <small class="text-muted float-right">Posted by {{$oferta->email_agente}}</small>
+    <small class="text-muted float-right">Postado por {{$oferta->email_agente}} - {{$oferta->nota}}</small>
     <br>
     @if($estado==0||$estado==1)
         <button type="button" class="btn btn-warning aceita_oferta" data-oferta="{{action('PedidosController@aceitaOferta', [encrypt($oferta->email_cliente), encrypt($oferta->email_agente), encrypt($oferta->pedido_id), encrypt($oferta->preco)])}}">Aceitar Oferta</button>
@@ -27,7 +27,7 @@
         </form>
     @endif
 @else
-    <small class="text-muted float-right">Sent to {{$oferta->email_cliente}}</small>
+    <small class="text-muted float-right">Enviado para {{$oferta->email_cliente}} - {{$oferta->nota}}</small>
 
 @endif
 <button type="button" class="btn btn-warning messageBtn">Mensagens</button>

@@ -28,6 +28,7 @@
             <th scope="col">Preço</th>
             <th scope="col">Descrição</th>
             <th scope="col">Tempo restante</th>
+            <th scope="col">Nota</th>
           </tr>
         </thead>
         <tbody>
@@ -50,6 +51,7 @@
               @else
                 <td>{{\Carbon\Carbon::parse($pedido->pedido_id, 'America/Sao_Paulo')->addDay()->diffAsCarbonInterval(\Carbon\Carbon::now('America/Sao_Paulo'))->forHumans('H:i:s')}}</td>
               @endif
+              <td>{{$pedido->nota}}</td>
             </tr>
           @endforeach
         </tbody>

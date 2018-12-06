@@ -9,6 +9,8 @@ use App\Mensagem;
 use App\Oferta;
 use App\Url;
 use App\Data;
+use App\Cliente;
+use App\Agente;
 use App\Http\Requests\PedidoRequest;
 use Carbon\Carbon;
 use Storage;
@@ -26,6 +28,13 @@ class PedidosController extends Controller {
     public function listaPedidosAgente(){
         $pedidos = Pedido::orderBy('pedido_id', 'desc')->orderBy('email_cliente', 'asc')->get();
         $this->verificaExpirou($pedidos, TRUE);
+        foreach ($pedidos as $pedido) {
+            $cliente = Cliente::where('email_cliente', $pedido->email_cliente)->first();
+            if($cliente->qntAvaliacoes==0)
+                $pedido['nota'] = 'Sem Avaliações';
+            else
+                $pedido['nota'] = $cliente->nota;
+        }
         return view('agente.content.content_pedidos')->with('pedidos', $pedidos);
     }
 
@@ -82,6 +91,11 @@ class PedidosController extends Controller {
         $mensagens = [];
         foreach ($ofertas as $oferta) {
             $mensagens[$oferta->email_agente] = [];
+            $agente = Agente::where('email_agente', $oferta->email_agente)->first();
+            if($agente->qntAvaliacoes==0)
+                $oferta['nota'] = 'Sem Avaliações';
+            else
+                $oferta['nota'] = $agente->nota;
         }
         foreach ($m as $me) {
             array_push($mensagens[$me->email_agente], $me);
@@ -101,6 +115,13 @@ class PedidosController extends Controller {
         $user = Auth::guard('agente')->user();
         $match['email_agente'] = $user->email_agente;
         $oferta = Oferta::where($match)->first();
+        if($oferta!=null){
+            $cliente = Cliente::where('email_cliente', $oferta->email_cliente)->first();
+            if($cliente->qntAvaliacoes==0)
+                $oferta['nota'] = 'Sem Avaliações';
+            else
+                $oferta['nota'] = $cliente->nota;
+        }
         $mensagens = Mensagem::where($match)->orderBy('mensagem_id', 'asc')->get();
 
         $this->verificaExpirou($pedido, FALSE);
