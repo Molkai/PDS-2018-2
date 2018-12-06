@@ -1,4 +1,4 @@
-@extends('agente.painel_agente')
+@extends('cliente.painel_cliente')
 
 @section('title')
     Dados cadastrais
@@ -31,7 +31,7 @@
         <div class="row">
 
             <div class="col-md-12">
-                @include('components.form_alterar_cadastro', ['agente' => $agente])
+                @include('components.form_alterar_cadastro', ['cliente' => $cliente])
             </div>
         </div>
     </div>

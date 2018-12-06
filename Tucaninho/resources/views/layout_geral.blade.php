@@ -44,6 +44,18 @@
                     type: 'danger'
                 });
             @endif
+
+            @if(session()->has('erro'))
+                $.notify({
+                    // options
+                    icon: 'fas fa-exclamation-circle',
+                    title: '<strong>Erro:</strong>',
+                    message: '{{session("erro")}}'
+                },{
+                    // settings
+                    type: 'danger'
+                });
+            @endif
         });
     </script>
 

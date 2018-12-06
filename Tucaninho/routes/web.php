@@ -16,31 +16,35 @@ Route::get('/', function () {
 });
 
 Route::middleware('clienteAuth')->group(function(){
-  Route::get('/cliente/pedidos', 'PedidosController@listaPedidosCliente');
+    Route::get('/cliente/pedidos', 'PedidosController@listaPedidosCliente');
 
-  Route::get('/cliente/logout', 'ClienteController@logout');
+    Route::get('/cliente/logout', 'ClienteController@logout');
 
-  Route::get('/cliente/deletar/{encrypted_email}', 'ClienteController@deletar');
+    Route::get('/cliente/deletar/{encrypted_email}', 'ClienteController@deletar');
 
-  Route::get('/cliente/pedidos/detalhes/{id}', 'PedidosController@detalhesPedidoCliente');
+    Route::get('/cliente/pedidos/detalhes/{id}', 'PedidosController@detalhesPedidoCliente');
 
-  Route::get('/cliente/novo', function(){
+    Route::get('/cliente/novo', function(){
       return view('cliente.content.content_novo_pedido');
-  });
+    });
 
-  Route::post('/cliente/cria_mensagem', 'MensagemController@cadastraMensagemCliente');
+    Route::post('/cliente/cria_mensagem', 'MensagemController@cadastraMensagemCliente');
 
-  Route::post('/cliente/novo', 'PedidosController@cadastraPedido');
+    Route::post('/cliente/novo', 'PedidosController@cadastraPedido');
 
-  Route::post('/cliente/remove_row', 'PedidosController@deleteRow');
+    Route::post('/cliente/remove_row', 'PedidosController@deleteRow');
 
-  Route::get('/pagamento/{encrypted_email_cliente}/{encrypted_email_agente}/{encrypted_pedido_id}/{encrypted_preco}', 'PedidosController@aceitaOferta');
+    Route::get('/pagamento/{encrypted_email_cliente}/{encrypted_email_agente}/{encrypted_pedido_id}/{encrypted_preco}', 'PedidosController@aceitaOferta');
 
-  Route::post('/pagamento', 'PedidosController@confirmaPagamento');
+    Route::post('/pagamento', 'PedidosController@confirmaPagamento');
 
-  Route::get('/cancela_compra/{encrypted_email_cliente}/{encrypted_email_agente}/{encrypted_pedido_id}', 'PedidosController@cancelaCompra');
+    Route::get('/cancela_compra/{encrypted_email_cliente}/{encrypted_email_agente}/{encrypted_pedido_id}', 'PedidosController@cancelaCompra');
 
-  Route::post('/cliente/avalia', 'AgenteController@atualizaAvaliacao');
+    Route::get('/cliente/dados_cadastro', 'ClienteController@carregaDadosCliente');
+
+    Route::post('/cliente/atualiza_cadastro', 'ClienteController@alterarDados');
+
+    Route::post('/cliente/avalia', 'AgenteController@atualizaAvaliacao');
 });
 
 Route::middleware('agenteAuth')->group(function(){

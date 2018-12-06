@@ -39,6 +39,9 @@
       <a href="/cliente/novo">Novo Pedido</a>
   </li>
   <li>
+      <a href="{{action('ClienteController@carregaDadosCliente')}}">Alterar dados</a>
+  </li>
+  <li>
       <a id="deletaCliente" href="#">Deletar Conta</a>
   </li>
   <li>

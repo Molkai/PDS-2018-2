@@ -65,6 +65,18 @@
                 type: 'danger'
             });
         @endif
+
+        @if(session()->has('success'))
+            $.notify({
+                // options
+                icon: 'fas fa-exclamation-circle',
+                title: '<strong>Concluido:</strong>',
+                message: '{{session("success")}}'
+            },{
+                // settings
+                type: 'success'
+            });
+        @endif
     });
 
     function modalFunction(){

@@ -83,12 +83,18 @@ class AgenteController extends Controller
         return redirect('/')->with(['success' => 'Senha alterada com sucesso.']);
     }
 
-    public function alterarDados(RegisterAgenteRequest $request){
+    public function alterarDados(Request $request){
+        $agente = Agente::where('email_agente', $request->email)->first();
+        if($agente != null)
+            return back()->with(['erro' => 'Já existe esse email.']);
         $agente = Agente::where('email_agente', $request->email_antigo)->first();
 
-        $agente->email_agente = $request->email;
-        $agente->nome_agente = $request->nome;
-        $agente->senha_agente = Hash::make($request->pwd);
+        if(isset($request->email))
+            $agente->email_agente = $request->email;
+        if(isset($request->name))
+            $agente->nome_agente = $request->name;
+        if(isset($request->pwd))
+            $agente->senha_agente = Hash::make($request->pwd);
 
         $agente->update();
 

@@ -82,6 +82,30 @@ class ClienteController extends Controller {
         return redirect('/')->with(['success' => 'Senha alterada com sucesso.']);
     }
 
+    public function alterarDados(Request $request){
+        $cliente = Cliente::where('email_cliente', $request->email)->first();
+        if($cliente != null)
+            return back()->with(['erro' => 'Já existe esse email.']);
+        $cliente = Cliente::where('email_cliente', $request->email_antigo)->first();
+
+        if(isset($request->email))
+            $cliente->email_cliente = $request->email;
+        if(isset($request->name))
+            $cliente->nome_cliente = $request->name;
+        if(isset($request->pwd))
+            $cliente->senha_cliente = Hash::make($request->pwd);
+
+        $cliente->update();
+
+        return redirect('/')->with(['success' => 'Dados alterados com sucesso.']);
+    }
+
+    public function carregaDadosCliente(){
+        $cliente = Auth::guard('cliente')->user();
+
+        return view("cliente.content.content_alterar_dados")->with(['cliente' => $cliente]);
+    }
+
     public function atualizaAvaliacao(Request $request){
         $cliente = Cliente::where('email_cliente', $request->email_cliente)->first();
 
