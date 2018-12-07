@@ -215,7 +215,10 @@ class PedidosController extends Controller {
         $oferta->estado=3;
         $oferta->save();
 
-        Oferta::where('estado', '<>', 3)->delete();
+        Oferta::where('pedido_id', $pedido_id)
+                ->where('email_cliente', $email_cliente)
+                ->where('estado', '<>', 3)
+                ->delete();
 
         return redirect()->action('PedidosController@listaPedidosAgente');
     }
