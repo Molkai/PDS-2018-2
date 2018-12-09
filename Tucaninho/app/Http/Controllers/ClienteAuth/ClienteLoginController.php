@@ -17,6 +17,6 @@ class ClienteLoginController extends Controller
         return redirect('/cliente/pedidos');
       }
 
-      return redirect('/');
+      return redirect('/')->with(['erro' => 'Verifique se seu email está registrado e se sua senha está correta.']);
     }
 }

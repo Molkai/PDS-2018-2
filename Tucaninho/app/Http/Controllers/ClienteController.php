@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\RecuperarSenha;
 use App\Cliente;
 use Illuminate\Support\Facades\Hash;
+use Session;
 
 class ClienteController extends Controller {
     public function logout(){
@@ -19,17 +20,20 @@ class ClienteController extends Controller {
         $email = decrypt($encrypted_email);
 
         $cliente = Cliente::where('email_cliente', $email)->first();
-        if($cliente===null) return redirect()->action('PedidosController@listaPedidosCliente');
+        if($cliente===null){
+            Session::put('erro', 'Falha ao excluir a conta.');
+            return redirect()->action('PedidosController@listaPedidosCliente');
+        }
         Auth::guard('cliente')->logout();
         $cliente->delete();
-        return view('home');
+        return redirect('/')->with('success', 'Conta deletada com sucesso.');
     }
 
     public function enviaEmailRecCliente(Request $request){
         $email = $request->email;
 
         $cliente = Cliente::where('email_cliente', $email)->first();
-        if($cliente==null) return redirect('/');
+        if($cliente==null) return redirect('/')->with('erro', 'Verifique se a conta está registrada.');
         $token = str_random(128);
         $cliente->token = $token;
         $cliente->update();
@@ -47,7 +51,7 @@ class ClienteController extends Controller {
 
         $cliente = Cliente::where('token', $token)->first();
 
-        if($cliente==null) return redirect('/');
+        if($cliente==null) return redirect('/')->with('erro', 'Ocorreu um erro na recuperação da senha.');
 
         $email_cliente = $cliente->email_cliente;
 
@@ -63,7 +67,7 @@ class ClienteController extends Controller {
 
         $cliente = Cliente::where('email_cliente', $email)->first();
 
-        if($cliente==null || $cliente->token==null) return redirect('/');
+        if($cliente==null || $cliente->token==null) return redirect('/')->with('erro', 'Ocorreu um erro no cancelamento da recuperação de senha.');
 
         $cliente->token = null;
 
@@ -122,6 +126,6 @@ class ClienteController extends Controller {
         $oferta->estado = 4;
         $oferta->save();
 
-        return back();
+        return back()->with('success', 'Avaliação enviada com sucesso.');
     }
 }

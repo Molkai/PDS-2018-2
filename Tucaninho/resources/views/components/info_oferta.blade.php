@@ -23,7 +23,7 @@
                     <option value="5">5</option>
                 </select>
             </div>
-            <input type="submit" class="btn btn-warning" value="Avaliar Cliente" id="envia_voucher">
+            <input type="submit" class="btn btn-warning" value="Avaliar Agente" id="envia_voucher">
         </form>
     @endif
 @else

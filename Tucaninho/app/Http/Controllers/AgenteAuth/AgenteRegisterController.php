@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\RegisterAgenteRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use App\Agente;
 
 class AgenteRegisterController extends Controller{
@@ -15,8 +16,12 @@ class AgenteRegisterController extends Controller{
         $agente->nome_agente = $request->nome;
         $agente->senha_agente = Hash::make($request->pwd);
 
-        if($agente->save())
-            return redirect('/');
-        return 'Falha no registro';
+        $credentials = ['email_agente' => $request->email, 'password' => $request->pwd];
+
+        if($agente->save()){
+            if(Auth::guard('agente')->attempt($credentials))
+                return redirect('/agente/pedidos')->with(['success' => 'Usuário cadastrado com sucesso.']);
+        }
+        return redirect('/')->with(['erro' => 'Ocorreu uma falha durante o registro do usuário.']);
     }
 }

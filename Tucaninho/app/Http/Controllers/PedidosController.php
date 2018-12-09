@@ -14,6 +14,7 @@ use App\Agente;
 use App\Http\Requests\PedidoRequest;
 use Carbon\Carbon;
 use Storage;
+use Session;
 
 class PedidosController extends Controller {
     public function listaPedidosCliente(){
@@ -47,11 +48,15 @@ class PedidosController extends Controller {
 
         $link = 'link';
         $i = 0;
-        while (true) {
-            if(!isset($request[$link.$i]))
-                break;
-            $dados = ['pedido_id' => $pedido_id, 'email_cliente' => $user->email_cliente, 'url' => $request[$link.$i]];
-            Url::create($dados);
+        while (isset($request[$link.$i])) {
+            $url_exists = Url::where('pedido_id', $pedido_id)
+                            ->where('email_cliente', $user->email_cliente)
+                            ->where('url', $request[$link.$i])
+                            ->exists();
+            if(!$url_exists){
+                $dados = ['pedido_id' => $pedido_id, 'email_cliente' => $user->email_cliente, 'url' => $request[$link.$i]];
+                Url::create($dados);
+            }
             $i++;
         }
 
@@ -71,7 +76,9 @@ class PedidosController extends Controller {
             $i++;
         }
 
-        return redirect()->action('PedidosController@listaPedidosCliente');
+        Session::put('success', 'Pedido registrado com sucesso.');
+
+        return redirect()->action('PedidosController@detalhesPedidoCliente', [encrypt($pedido_id)]);
     }
 
     public function detalhesPedidoCliente($id){
@@ -162,7 +169,9 @@ class PedidosController extends Controller {
         $oferta->estado = 2;
         $oferta->save();
 
-        return redirect()->action('PedidosController@listaPedidosCliente');
+        Session::put('success', 'Pagamento confirmado.');
+
+        return redirect()->action('PedidosController@detalhesPedidoCliente', [encrypt($pedido_id)]);
     }
 
     public function cancelaCompra($encrypted_email_cliente, $encrypted_email_agente, $encrypted_pedido_id){
@@ -183,7 +192,7 @@ class PedidosController extends Controller {
         $oferta->estado = 0;
         $oferta->save();
 
-        return redirect()->action('PedidosController@listaPedidosCliente');
+        return back()->with('success', 'Compra cancelada.');
     }
 
     public function uploadVoucher(Request $request){
@@ -196,7 +205,7 @@ class PedidosController extends Controller {
                         ->first();
 
         if(!$request->hasFile('fileToUpload') || !$request->file('fileToUpload')->isValid())
-            return redirect()->view('/');
+            return back()->with('erro', 'Ocorreu um erro no envio do voucher.');
 
         $file = $request->file('fileToUpload');
 
@@ -220,7 +229,7 @@ class PedidosController extends Controller {
                 ->where('estado', '<>', 3)
                 ->delete();
 
-        return redirect()->action('PedidosController@listaPedidosAgente');
+        return back()->with('success', 'Voucher enviado com sucesso.');
     }
 
     public function downloadVoucher($cliente, $agente, $pedido_id, $fileName){

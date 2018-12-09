@@ -16,6 +16,6 @@ class ClienteAuthenticate {
     public function handle($request, Closure $next) {
       if(Auth::guard('cliente')->check())
         return $next($request);
-      return redirect('/');
+      return redirect('/')->with(['erro' => 'Logue para acessar esse recurso.']);
     }
 }

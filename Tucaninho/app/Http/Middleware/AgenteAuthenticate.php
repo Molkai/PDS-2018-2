@@ -17,6 +17,6 @@ class AgenteAuthenticate
     public function handle($request, Closure $next) {
       if(Auth::guard('agente')->check())
         return $next($request);
-      return redirect('/');
+      return redirect('/')->with(['erro' => 'Logue para acessar esse recurso.']);
     }
 }

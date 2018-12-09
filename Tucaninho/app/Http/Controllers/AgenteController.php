@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
 use App\Mail\RecuperarSenha;
 use App\Agente;
+use Session;
 
 class AgenteController extends Controller
 {
@@ -20,17 +21,20 @@ class AgenteController extends Controller
         $email = decrypt($encrypted_email);
 
         $agente = Agente::where('email_agente', $email)->first();
-        if($agente===null) return redirect()->action('PedidosController@listaPedidosAgente');
+        if($agente===null){
+            Session::put('erro', 'Falha ao excluir a conta.');
+            return redirect()->action('PedidosController@listaPedidosAgente');
+        }
         Auth::guard('agente')->logout();
         $agente->delete();
-        return view('home');
+        return redirect('/')->with('success', 'Conta deletada com sucesso.');
     }
 
     public function enviaEmailRecAgente(Request $request){
         $email = $request->email;
 
         $agente = Agente::where('email_agente', $email)->first();
-        if($agente==null) return redirect('/');
+        if($agente==null) return redirect('/')->with('erro', 'Verifique se a conta está registrada.');
         $token = str_random(128);
         $agente->token = $token;
         $agente->update();
@@ -48,7 +52,7 @@ class AgenteController extends Controller
 
         $agente = Agente::where('token', $token)->first();
 
-        if($agente==null) return redirect('/');
+        if($agente==null) return redirect('/')->with('erro', 'Ocorreu um erro na recuperação da senha.');
 
         $email_agente = $agente->email_agente;
 
@@ -64,7 +68,7 @@ class AgenteController extends Controller
 
         $agente = Agente::where('email_agente', $email)->first();
 
-        if($agente==null || $agente->token==null) return redirect('/');
+        if($agente==null || $agente->token==null) return redirect('/')->with('erro', 'Ocorreu um erro no cancelamento da recuperação de senha.');
 
         $agente->token = null;
 
@@ -122,6 +126,6 @@ class AgenteController extends Controller
         $pedido->estado = 4;
         $pedido->save();
 
-        return back();
+        return back()->with('success', 'Avaliação enviada com sucesso.');
     }
 }

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Oferta;
 use App\Http\Requests\OfertaRequest;
+use Session;
 
 class OfertaController extends Controller {
     public function cadastraOferta(OfertaRequest $request){
@@ -16,7 +17,7 @@ class OfertaController extends Controller {
 
         Oferta::create($dados);
 
-        return redirect()->action('PedidosController@listaPedidosAgente');
+        return back()->with('success', 'Oferta realizada com sucesso.');
     }
 
     public function deletaOferta(Request $request){
@@ -42,6 +43,8 @@ class OfertaController extends Controller {
                         ->first();
 
         $oferta->update($dados);
+
+        Session::put('success', 'Detalhes da oferta alterados com sucesso.');
 
         return redirect()->action('PedidosController@detalhesPedidoAgente', [encrypt($request->pedido_id), encrypt($request->email_cliente)]);
     }

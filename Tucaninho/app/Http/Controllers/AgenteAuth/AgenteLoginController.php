@@ -15,6 +15,6 @@ class AgenteLoginController extends Controller {
         return redirect('/agente/pedidos');
       }
 
-      return redirect('/');
+      return redirect('/')->with(['erro' => 'Verifique se seu email está registrado e se sua senha está correta.']);
     }
 }

@@ -69,12 +69,24 @@
         @if(session()->has('success'))
             $.notify({
                 // options
-                icon: 'fas fa-exclamation-circle',
+                icon: 'fas fa-check-circle',
                 title: '<strong>Concluido:</strong>',
-                message: '{{session("success")}}'
+                message: '{{session()->pull("success")}}'
             },{
                 // settings
                 type: 'success'
+            });
+        @endif
+
+        @if(session()->has('erro'))
+            $.notify({
+                // options
+                icon: 'fas fa-exclamation-circle',
+                title: '<strong>Erro:</strong>',
+                message: '{{session()->pull("erro")}}'
+            },{
+                // settings
+                type: 'danger'
             });
         @endif
     });
