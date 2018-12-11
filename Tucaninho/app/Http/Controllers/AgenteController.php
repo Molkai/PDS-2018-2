@@ -88,11 +88,19 @@ class AgenteController extends Controller
     }
 
     public function alterarDados(Request $request){
-        $agente = Agente::where('email_agente', $request->email)->first();
-        if($agente != null)
-            return back()->with(['erro' => 'Já existe esse email.']);
+        if(strcmp($request->nome_antigo, $request->name) == 0)
+            $request->name = null;
+        if(strcmp($request->email_antigo, $request->email) == 0)
+            $request->email = null;
+        else{
+            $agente = Agente::where('email_agente', $request->email)->first();
+            if($agente != null)
+                return back()->with(['erro' => 'Já existe esse email.']);
+        }
         $agente = Agente::where('email_agente', $request->email_antigo)->first();
 
+        if(!isset($request->email) && !isset($request->name) && !isset($request->pwd))
+            return back()->with(['erro' => 'Nada foi alterado.']);
         if(isset($request->email))
             $agente->email_agente = $request->email;
         if(isset($request->name))

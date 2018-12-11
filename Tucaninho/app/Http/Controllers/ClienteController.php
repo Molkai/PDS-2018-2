@@ -87,11 +87,19 @@ class ClienteController extends Controller {
     }
 
     public function alterarDados(Request $request){
-        $cliente = Cliente::where('email_cliente', $request->email)->first();
-        if($cliente != null)
-            return back()->with(['erro' => 'Já existe esse email.']);
+        if(strcmp($request->nome_antigo, $request->name) == 0)
+            $request->name = null;
+        if(strcmp($request->email_antigo, $request->email) == 0)
+            $request->email = null;
+        else{
+            $cliente = Cliente::where('email_cliente', $request->email)->first();
+            if($cliente != null)
+                return back()->with(['erro' => 'Já existe esse email.']);
+        }
         $cliente = Cliente::where('email_cliente', $request->email_antigo)->first();
 
+        if(!isset($request->email) && !isset($request->name) && !isset($request->pwd))
+            return back()->with(['erro' => 'Nada foi alterado.']);
         if(isset($request->email))
             $cliente->email_cliente = $request->email;
         if(isset($request->name))
