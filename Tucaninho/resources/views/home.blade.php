@@ -99,7 +99,6 @@
             $("#formLogin").show();
             $("#esqSenha").show();
             $("#cadastro").show();
-            $("#facebookIcon").show();
             $("#formCadastro").hide();
             $("#formSenha").hide();
             $("#login").hide();
@@ -118,7 +117,6 @@
             $("#formLogin").show();
             $("#esqSenha").show();
             $("#cadastro").show();
-            $("#facebookIcon").show();
             $("#formCadastro").hide();
             $("#formSenha").hide();
             $("#login").hide();
@@ -128,7 +126,6 @@
             $("#formLogin").hide();
             $("#esqSenha").hide();
             $("#cadastro").hide();
-            $("#facebookIcon").hide();
             $("#formSenha").show();
             $("#login").show();
         });

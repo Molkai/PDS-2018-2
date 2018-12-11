@@ -22,10 +22,10 @@
                             </div>
                         </div>
                         <div class="text-center">
-                            <button type="submit" class="btn btn-default" id="entrar">Entrar</button>
+                            <button type="submit" class="btn btn-default greenBtn" id="entrar">Entrar</button>
                         </div>
                     </form>
-                    <form class="form-horizontal" id="formCadastro" method="post" action="{{action('ClienteAuth\ClienteRegisterController@create')}}">
+                    <form class="form-horizontal formCadastro" id="formCadastro" method="post" action="{{action('ClienteAuth\ClienteRegisterController@create')}}">
                         @csrf
                         <div class="form-group">
                             <div class="col-xs-12 col-sm-12 form-control-static">
@@ -48,10 +48,10 @@
                             </div>
                         </div>
                         <div class="text-center">
-                            <button type="submit" class="btn btn-default" id="cadastrar">Cadastrar</button>
+                            <button type="submit" class="btn btn-default greenBtn" id="cadastrar">Cadastrar</button>
                         </div>
                     </form>
-                    <form class="form-horizontal" id="formSenha" method="post" action="{{action('ClienteController@enviaEmailRecCliente')}}">
+                    <form class="form-horizontal formSenha" id="formSenha" method="post" action="{{action('ClienteController@enviaEmailRecCliente')}}">
                         @csrf
                         <div class="form-group">
                             <div class="col-xs-12 col-sm-12 form-control-static">
@@ -59,19 +59,15 @@
                             </div>
                         </div>
                         <div class="text-center">
-                            <button type="submit" class="btn btn-default" id="enviar">Enviar</button>
+                            <button type="submit" class="btn btn-default greenBtn" id="enviar">Enviar</button>
                         </div>
                     </form>
                 </div>
             </div>
             <div class="modal-footer">
-                <a href="#" class="fa-stack fa-lg" id="facebookIcon">
-                    <i class="far fa-circle fa-stack-2x""></i>
-                    <i class="fab fa-facebook-f fa-stack-1x fa-inverse" id="fbF"></i>
-                </a>
-                <button type="button" class="btn btn-default" id="login">Login</button>
-                <button type="button" class="btn btn-default" id="esqSenha">Esqueceu a senha?</button>
-                <button type="button" class="btn btn-default" id="cadastro">Cadastrar-se</button>
+                <button type="button" class="btn btn-default goldBtn loginBtn" id="login">Login</button>
+                <button type="button" class="btn btn-default blueBtn" id="esqSenha">Esqueceu a senha?</button>
+                <button type="button" class="btn btn-default goldBtn" id="cadastro">Cadastrar-se</button>
             </div>
         </div>
     </div>

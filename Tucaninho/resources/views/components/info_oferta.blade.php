@@ -23,6 +23,7 @@
                     <option value="5">5</option>
                 </select>
             </div>
+            <div>&nbsp&nbsp</div>
             <input type="submit" class="btn btn-warning" value="Avaliar Agente" id="envia_voucher">
         </form>
     @endif
@@ -30,6 +31,7 @@
     <small class="text-muted float-right">Enviado para {{$oferta->email_cliente}} - {{$oferta->nota}}</small>
 
 @endif
+<br>
 <button type="button" class="btn btn-warning messageBtn">Mensagens</button>
 <div class="messagesDiv">
     <div class="messagesCardsDiv">

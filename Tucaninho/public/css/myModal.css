@@ -7,7 +7,7 @@
     color: gold;
 }
 
-#esqSenha {
+.blueBtn {
   color: deepskyblue;
   font-size: 20px;
   font-weight: bold;
@@ -15,15 +15,15 @@
   border-radius: 10px;
 }
 
-#esqSenha:hover,
-#esqSenha:focus {
+.blueBtn:hover,
+.blueBtn:focus {
   color: blue;
   text-decoration: none;
   cursor: pointer;
   background-color: skyblue;
 }
 
-#entrar {
+.greenBtn {
   color: limegreen;
   align-content: center;
   font-size: 20px;
@@ -32,15 +32,15 @@
   border-radius: 10px;
 }
 
-#entrar:hover,
-#entrar:focus {
+.greenBtn:hover,
+.greenBtn:focus {
   color: green;
   text-decoration: none;
   cursor: pointer;
   background-color: limegreen;
 }
 
-#cadastro {
+.goldBtn {
   color: goldenrod;
   font-size: 20px;
   font-weight: bold;
@@ -48,131 +48,22 @@
   border-radius: 10px;
 }
 
-#cadastro:hover,
-#cadastro:focus {
+.goldBtn:hover,
+.goldBtn:focus {
   color: gold;
   text-decoration: none;
   cursor: pointer;
   background-color: goldenrod;
 }
 
-#fbF{
-    color: gold;
-}
-
-#login {
-  display: none;
-  color: goldenrod;
-  font-size: 20px;
-  font-weight: bold;
-  background-color: white;
-  border-radius: 10px;
-}
-
-#login:hover,
-#login:focus {
-  color: gold;
-  text-decoration: none;
-  cursor: pointer;
-  background-color: goldenrod;
-}
-
-#formCadastro {
+.formCadastro {
   display: none;
 }
 
-#formSenha {
+.formSenha {
   display: none;
 }
 
-#cadastrar {
-  color: limegreen;
-  align-content: center;
-  font-size: 20px;
-  font-weight: bold;
-  background-color: white;
-  border-radius: 10px;
+.loginBtn{
+    display: none;
 }
-
-#cadastrar:hover,
-#cadastrar:focus {
-  color: green;
-  text-decoration: none;
-  cursor: pointer;
-  background-color: limegreen;
-}
-
-#enviar {
-  color: limegreen;
-  align-content: center;
-  font-size: 20px;
-  font-weight: bold;
-  background-color: white;
-  border-radius: 10px;
-}
-
-#enviar:hover,
-#enviar:focus {
-  color: green;
-  text-decoration: none;
-  cursor: pointer;
-  background-color: limegreen;
-}
-
-#esqSenhaAgente {
-  color: deepskyblue;
-  font-size: 20px;
-  font-weight: bold;
-  background-color: white;
-  border-radius: 10px;
-}
-
-#esqSenhaAgente:hover,
-#esqSenhaAgente:focus {
-  color: blue;
-  text-decoration: none;
-  cursor: pointer;
-  background-color: skyblue;
-}
-
-#cadastroAgente {
-  color: goldenrod;
-  font-size: 20px;
-  font-weight: bold;
-  background-color: white;
-  border-radius: 10px;
-}
-
-#cadastroAgente:hover,
-#cadastroAgente:focus {
-  color: gold;
-  text-decoration: none;
-  cursor: pointer;
-  background-color: goldenrod;
-}
-
-#loginAgente {
-  display: none;
-  color: goldenrod;
-  font-size: 20px;
-  font-weight: bold;
-  background-color: white;
-  border-radius: 10px;
-}
-
-#loginAgente:hover,
-#loginAgente:focus {
-  color: gold;
-  text-decoration: none;
-  cursor: pointer;
-  background-color: goldenrod;
-}
-
-#formCadastroAgente {
-  display: none;
-}
-
-#formSenhaAgente {
-  display: none;
-}
-

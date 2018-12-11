@@ -108,6 +108,7 @@
                     <option value="5">5</option>
                 </select>
             </div>
+            <div>&nbsp&nbsp</div>
             <input type="submit" class="btn btn-warning" value="Avaliar Cliente" id="envia_voucher">
         </form>
     @endif
