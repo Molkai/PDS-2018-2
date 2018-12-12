@@ -236,6 +236,81 @@ class PedidosController extends Controller {
         return Storage::disk('dropbox')->download($cliente.'/'.$agente.'/'.$pedido_id.'/'.$fileName);
     }
 
+    public function alteraPedido($encrypted_pedido_id){
+        $pedido_id = decrypt($encrypted_pedido_id);
+        $user = Auth::guard('cliente')->user();
+
+        $pedido = Pedido::where('email_cliente', $user->email_cliente)
+                        ->where('pedido_id', $pedido_id)
+                        ->first();
+
+        $links = Url::where('email_cliente', $user->email_cliente)
+                        ->where('pedido_id', $pedido_id)
+                        ->get();
+
+        $datas = Data::where('email_cliente', $user->email_cliente)
+                        ->where('pedido_id', $pedido_id)
+                        ->get();
+
+        if($pedido==null) return back()->with('erro', 'O pedido procurado não foi encontrado.');
+
+        return view('cliente.content.content_novo_pedido')->with(['pedido' => $pedido, 'datas' => $datas, 'links' => $links]);
+    }
+
+    public function efetuaAlteracaoPedido(PedidoRequest $request){
+        $user = Auth::guard('cliente')->user();
+        $pedido_id = $request->pedido_id;
+
+        $pedido = Pedido::where('email_cliente', $user->email_cliente)
+                        ->where('pedido_id', $pedido_id)
+                        ->first();
+
+
+
+        $dados = ['descricao' => $request->descricao, 'qnt_adultos' => $request->qnt_adultos, 'qnt_criancas' => $request->qnt_criancas, 'qnt_bebes' => $request->qnt_bebes, 'tipo_viagem' => $request->tipo_viagem, 'tipo_passagem' => $request->tipo_passagem, 'preferencia'=> $request->preferencia, 'preco' => $request->preco];
+        $pedido->update($dados);
+
+        $link = 'link';
+        $i = 0;
+        Url::where('pedido_id', $pedido_id)
+            ->where('email_cliente', $user->email_cliente)
+            ->delete();
+        while (isset($request[$link.$i])) {
+            $url_exists = Url::where('pedido_id', $pedido_id)
+                            ->where('email_cliente', $user->email_cliente)
+                            ->where('url', $request[$link.$i])
+                            ->exists();
+            if(!$url_exists){
+                $dados = ['pedido_id' => $pedido_id, 'email_cliente' => $user->email_cliente, 'url' => $request[$link.$i]];
+                Url::create($dados);
+            }
+            $i++;
+        }
+
+        $i = 0;
+        Data::where('pedido_id', $pedido_id)
+            ->where('email_cliente', $user->email_cliente)
+            ->delete();
+        if($request->tipo_viagem == 2){
+            $dados = ['pedido_id' => $pedido_id, 'email_cliente' => $user->email_cliente, 'data' => $request['data'.$i], 'pais' => $request['pais'.$i], 'cidade' => $request['cidade'.$i], 'aeroporto' => $request['aeroporto'.$i], 'paisDestino' => $request['paisDestino'.$i], 'cidadeDestino' => $request['cidadeDestino'.$i], 'aeroportoDestino' => $request['aeroportoDestino'.$i]];
+            Data::create($dados);
+            $dados = ['pedido_id' => $pedido_id, 'email_cliente' => $user->email_cliente, 'data' => $request['dataRetorno'.$i], 'pais' => $request['paisDestino'.$i], 'cidade' => $request['cidadeDestino'.$i], 'aeroporto' => $request['aeroportoDestino'.$i], 'paisDestino' => $request['pais'.$i], 'cidadeDestino' => $request['cidade'.$i], 'aeroportoDestino' => $request['aeroporto'.$i]];
+            Data::create($dados);
+            $i++;
+        }
+        while (true) {
+            if(!isset($request['data'.$i]))
+                break;
+            $dados = ['pedido_id' => $pedido_id, 'email_cliente' => $user->email_cliente, 'data' => $request['data'.$i], 'pais' => $request['pais'.$i], 'cidade' => $request['cidade'.$i], 'aeroporto' => $request['aeroporto'.$i], 'paisDestino' => $request['paisDestino'.$i], 'cidadeDestino' => $request['cidadeDestino'.$i], 'aeroportoDestino' => $request['aeroportoDestino'.$i]];
+            Data::create($dados);
+            $i++;
+        }
+
+        Session::put('success', 'Pedido alterado com sucesso.');
+
+        return redirect()->action('PedidosController@detalhesPedidoCliente', [encrypt($pedido_id)]);
+    }
+
     public function verificaExpirou($pedidos, $collection){
         $date = Carbon::now('America/Sao_Paulo');
         if($collection){

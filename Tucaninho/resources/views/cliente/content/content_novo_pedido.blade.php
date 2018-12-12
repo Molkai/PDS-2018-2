@@ -44,7 +44,11 @@
             });
         };
         $(document).ready(function(){
-            $('#preco').val("R$");
+            @if(isset($pedido))
+                $('#preco').val("{{$pedido->preco}}");
+            @else
+                $('#preco').val("R$");
+            @endif
             $('#preco').inputmask("numeric", {
                 radixPoint: ",",
                 groupSeparator: ".",
@@ -239,6 +243,49 @@
                     container.prepend(new_field_group);
                 }
             );
+            @if(isset($pedido))
+                console.log($('[data-role="dynamic-fields"][id="links"]  > .form-inline:eq(0)').find('input'));
+                $('[data-role="dynamic-fields"][id="links"]  > .form-inline:eq(0)').find('input').val('{{$links[0]->url}}');
+                @for($i=1; $i<count($links); $i++)
+                    $('.addLinkBtn').trigger('click');
+                    $('[data-role="dynamic-fields"][id="links"]  > .form-inline:eq(0)').find('input').val('{{$links[$i]->url}}');
+                @endfor
+                $('#descricao').val("{{$pedido->descricao}}");
+                $('#tipo_viagem option[value="{{$pedido->tipo_viagem}}"]').attr('selected', 'selected').change();
+                while(numDatas > 1){
+                    $(".rmDataBtn"+(numDatas-1)).trigger('click');
+                }
+                let data = $('[data-role="dynamic-fields"][id="datas"]  > .form:eq(0)').find('input');
+                <?php $i=1; ?>
+                $(data[0]).val('{{$datas[0]->data}}');
+                $(data[2]).val('{{$datas[0]->pais}}');
+                $(data[3]).val('{{$datas[0]->paisDestino}}');
+                $(data[4]).val('{{$datas[0]->cidade}}');
+                $(data[5]).val('{{$datas[0]->cidadeDestino}}');
+                $(data[6]).val('{{$datas[0]->aeroporto}}');
+                $(data[7]).val('{{$datas[0]->aeroportoDestino}}');
+                @if($pedido->tipo_viagem==2)
+                    $(data[1]).val('{{$datas[1]->data}}');
+                    <?php $i++; ?>
+                @endif
+                @for(; $i<count($datas); $i++)
+                    $(".addDataBtn").trigger('click');
+                    data = $('[data-role="dynamic-fields"][id="datas"]  > .form:eq(0)').find('input');
+                    $(data[0]).val('{{$datas[$i]->data}}');
+                    $(data[1]).val('{{$datas[$i]->pais}}');
+                    $(data[2]).val('{{$datas[$i]->paisDestino}}');
+                    $(data[3]).val('{{$datas[$i]->cidade}}');
+                    $(data[4]).val('{{$datas[$i]->cidadeDestino}}');
+                    $(data[5]).val('{{$datas[$i]->aeroporto}}');
+                    $(data[6]).val('{{$datas[$i]->aeroportoDestino}}');
+                @endfor
+
+                $('#qnt_adultos option[value="{{$pedido->qnt_adultos}}"]').attr('selected', 'selected');
+                $('#qnt_criancas option[value="{{$pedido->qnt_criancas}}"]').attr('selected', 'selected');
+                $('#qnt_bebes option[value="{{$pedido->qnt_bebes}}"]').attr('selected', 'selected').change();
+                $("input[name='tipo_passagem']").filter("[value='{{$pedido->tipo_passagem}}']").prop('checked', true);
+                $("#preferencia").val("{{isset($pedido->preferencia)?$pedido->preferencia:''}}");
+            @endif
         });
   </script>
 @endsection
@@ -258,7 +305,7 @@
 
                       <div class="card-body">
               <!-- We're going to place the form here in the next step -->
-                          <form id="contact-form" method="post" action="{{action('PedidosController@cadastraPedido')}}" role="form">
+                          <form id="contact-form" method="post" action="{{isset($pedido)?action('PedidosController@efetuaAlteracaoPedido'):action('PedidosController@cadastraPedido')}}" role="form">
                               @csrf
                               <div class="messages"></div>
 
@@ -288,7 +335,7 @@
                                                             <div class="form-group">
                                                                 <input type="url" name="link0" class="form-control" placeholder="Link..." required="required" max="2000">
                                                             </div>
-                                                            <button class="btn btn-primary" data-role="add">
+                                                            <button class="btn btn-primary addLinkBtn" data-role="add">
                                                                 <i class="fa fa-plus"></i>
                                                             </button>
                                                         </div>  <!-- /div.form-inline -->
@@ -492,6 +539,8 @@
                                           </div>
                                       </div>
                                   </div>
+
+                                  <input type="hidden" name="pedido_id" value="{{$pedido->pedido_id}}">
 
                                   <div class="row">
                                       <div class="col-md-12">

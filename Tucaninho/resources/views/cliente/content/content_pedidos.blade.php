@@ -16,7 +16,7 @@
         console.log(e.target);
         if(!$(e.target).is('i'))
             window.location = $(this).data("href");
-        else{
+        else if($(e.target).is('.fa-trash-alt')){
             index = $("tr").index($(this));
             let id = $(this).data("id");
             let email_cliente = $(this).data("cliente");
@@ -57,6 +57,7 @@
             <th scope="col">Descrição</th>
             <th scope="col">Tempo restante</th>
             <th scope="col">Remover</th>
+            <th scope="col">Editar</th>
           </tr>
         </thead>
         <tbody>
@@ -79,6 +80,7 @@
                 <td>{{\Carbon\Carbon::parse($pedido->pedido_id, 'America/Sao_Paulo')->addDay()->diffAsCarbonInterval(\Carbon\Carbon::now('America/Sao_Paulo'))->forHumans('H:i:s')}}</td>
               @endif
               <td><a href="#"><i class="far fa-trash-alt"></i></a></td>
+              <td><a href="{{action('PedidosController@alteraPedido', [encrypt($pedido->pedido_id)])}}"><i class="fas fa-pencil-alt"></i></a></td>
             </tr>
           @endforeach
         </tbody>

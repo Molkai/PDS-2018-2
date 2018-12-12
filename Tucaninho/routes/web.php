@@ -45,6 +45,10 @@ Route::middleware('clienteAuth')->group(function(){
     Route::post('/cliente/atualiza_cadastro', 'ClienteController@alterarDados');
 
     Route::post('/cliente/avalia', 'AgenteController@atualizaAvaliacao');
+
+    Route::get('/cliente/edita/{encrypted_pedido_id}', 'PedidosController@alteraPedido');
+
+    Route::post('/cliente/edita', 'PedidosController@efetuaAlteracaoPedido');
 });
 
 Route::middleware('agenteAuth')->group(function(){
