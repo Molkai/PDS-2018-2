@@ -38,26 +38,49 @@
     @endforeach
     <?php $i=0; ?>
     @foreach($datas as $data)
-        @if($i%3==0)
-            <div class="row my-4">
+        @if($i%2==0)
+            <div class="row my-6">
         @endif
-        <div class="col-md-4">
+        <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title"><strong>Trecho {{$i+1}}</strong></h5>
-                    <p><strong>Data:</strong> {{$data->data}}</p>
-                    <p><strong>País:</strong> {{$data->pais}}</p>
-                    <p><strong>Cidade:</strong> {{$data->cidade}}</p>
-                    <p><strong>Aeroporto:</strong> {{$data->aeroporto}}</p>
+                    <div class="row">
+                        <p><strong>Data:</strong> {{$data->data}}</p>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>País:</strong> {{$data->pais}}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>País Destino:</strong> {{$data->paisDestino}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Cidade:</strong> {{$data->cidade}}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Cidade Destino:</strong> {{$data->cidadeDestino}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Aeroporto:</strong> {{$data->aeroporto}}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Aeroporto Destino:</strong> {{$data->aeroportoDestino}}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        @if($i%3==2)
+        @if($i%2==1)
             </div>
         @endif
         <?php $i++ ?>
     @endforeach
-    @if($i%3!=0)
+    @if($i%2!=0)
         </div>
     @endif
     <div class="row">
