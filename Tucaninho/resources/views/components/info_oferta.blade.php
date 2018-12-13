@@ -26,12 +26,13 @@
             <div>&nbsp&nbsp</div>
             <input type="submit" class="btn btn-warning" value="Avaliar Agente" id="envia_voucher">
         </form>
+        <br>
     @endif
 @else
     <small class="text-muted float-right">Enviado para {{$oferta->email_cliente}} - {{$oferta->nota}}</small>
 
 @endif
-<br>
+
 <button type="button" class="btn btn-warning messageBtn">Mensagens</button>
 <div class="messagesDiv">
     <div class="messagesCardsDiv">

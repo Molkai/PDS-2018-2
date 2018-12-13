@@ -259,16 +259,7 @@
           <div class="col-md-4">
             <span class="copyright">Copyright &copy; Tucaninho 2018</span>
           </div>
-          <div class="col-md-4">
-            <ul class="list-inline social-buttons">
-              <li class="list-inline-item">
-                <a href="#">
-                  <i class="fab fa-facebook-f"></i>
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div class="col-md-4">
+          <div class="col-md-4 offset-md-4">
             <ul class="list-inline quicklinks">
               <li class="list-inline-item">
                 <a href="#" onclick="modalAgenteFunction()" id="loginAgenteBtn">Login do Agente</a>

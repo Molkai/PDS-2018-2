@@ -540,7 +540,9 @@
                                       </div>
                                   </div>
 
-                                  <input type="hidden" name="pedido_id" value="{{$pedido->pedido_id}}">
+                                  @if(isset($pedido))
+                                    <input type="hidden" name="pedido_id" value="{{$pedido->pedido_id}}">
+                                  @endif
 
                                   <div class="row">
                                       <div class="col-md-12">
